@@ -61,7 +61,13 @@
                     - Category: <%= categoryMap.get(book.getCategoryId()) %>
                     - Price: $<%= book.getPrice() %>
                     - Stock: <%= book.getStock() %>
-                    <button>Add to Cart</button>
+                    <form action="CartServlet" method="POST">
+                        <input type="hidden" name="productType" value="book">
+                        <input type="hidden" name="productId" value="<%= book.getId() %>">
+                        <input type="hidden" name="productName" value="<%= book.getTitle() %>">
+                        <input type="hidden" name="productPrice" value="<%= book.getPrice() %>">
+                        <button type="submit">Add to Cart</button>
+                    </form>
                 </li>
             <% } %>
         </ul>
@@ -80,13 +86,22 @@
                     <b><%= accessory.getName() %></b>
                     - Price: $<%= accessory.getPrice() %>
                     - Stock: <%= accessory.getStock() %>
-                    <button>Add to Cart</button>
+                    <form action="CartServlet" method="POST">
+                        <input type="hidden" name="productType" value="accessory">
+                        <input type="hidden" name="productId" value="<%= accessory.getId() %>">
+                        <input type="hidden" name="productName" value="<%= accessory.getName() %>">
+                        <input type="hidden" name="productPrice" value="<%= accessory.getPrice() %>">
+                        <button type="submit">Add to Cart</button>
+                    </form>
                 </li>
             <% } %>
         </ul>
     <% } else { %>
         <p>No accessories available.</p>
     <% } %>
+
+    <br>
+    <a href="cart.jsp">View Cart</a>
 
 </body>
 </html>
