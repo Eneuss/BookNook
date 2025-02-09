@@ -1,0 +1,92 @@
+<%@ page contentType="text/html; charset=UTF-8" %>
+<%@ page pageEncoding="UTF-8" %>
+<%@ page import="java.util.List, java.util.Map, entity.Book, entity.Accessory" %>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Search Books & Accessories</title>
+    <script>
+        function filterBooks() {
+            var selectedCategory = document.getElementById("categoryFilter").value;
+            var books = document.getElementsByClassName("book-item");
+
+            for (var i = 0; i < books.length; i++) {
+                if (selectedCategory === "all") {
+                    books[i].style.display = "block";
+                } else {
+                    var bookCategory = books[i].getAttribute("data-category");
+                    if (bookCategory === selectedCategory) {
+                        books[i].style.display = "block";
+                    } else {
+                        books[i].style.display = "none";
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body>
+    <h2>Search for Books & Accessories</h2>
+
+    <form method="GET" action="SearchServlet">
+        <label for="searchQuery">Search:</label>
+        <input type="text" id="searchQuery" name="searchQuery" placeholder="Enter book title or accessory name">
+        <button type="submit">Search</button>
+    </form>
+
+    <h3>Filter Books by Category</h3>
+    <select id="categoryFilter" onchange="filterBooks()">
+        <option value="all">All Categories</option>
+        <%
+            Map<Integer, String> categoryMap = (Map<Integer, String>) session.getAttribute("categories");
+            if (categoryMap != null) {
+                for (Map.Entry<Integer, String> entry : categoryMap.entrySet()) {
+        %>
+            <option value="<%= entry.getValue() %>"><%= entry.getValue() %></option>
+        <%
+                }
+            }
+        %>
+    </select>
+
+    <h3>Books</h3>
+    <%
+        List<Book> books = (List<Book>) session.getAttribute("books");
+        if (books != null && !books.isEmpty()) {
+    %>
+        <ul>
+            <% for (Book book : books) { %>
+                <li class="book-item" data-category="<%= categoryMap.get(book.getCategoryId()) %>">
+                    <b><%= book.getTitle() %></b> by <%= book.getAuthor() %>
+                    - Category: <%= categoryMap.get(book.getCategoryId()) %>
+                    - Price: $<%= book.getPrice() %>
+                    - Stock: <%= book.getStock() %>
+                    <button>Add to Cart</button>
+                </li>
+            <% } %>
+        </ul>
+    <% } else { %>
+        <p>No books available.</p>
+    <% } %>
+
+    <h3>Accessories</h3>
+    <%
+        List<Accessory> accessories = (List<Accessory>) session.getAttribute("accessories");
+        if (accessories != null && !accessories.isEmpty()) {
+    %>
+        <ul>
+            <% for (Accessory accessory : accessories) { %>
+                <li>
+                    <b><%= accessory.getName() %></b>
+                    - Price: $<%= accessory.getPrice() %>
+                    - Stock: <%= accessory.getStock() %>
+                    <button>Add to Cart</button>
+                </li>
+            <% } %>
+        </ul>
+    <% } else { %>
+        <p>No accessories available.</p>
+    <% } %>
+
+</body>
+</html>
