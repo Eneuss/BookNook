@@ -32,5 +32,8 @@
     </form>
     
     <p>Already have an account? <a href="login.jsp">Login here</a></p>
+    <p>Or </p>
+    <a href="home.jsp" class="nav-button">Return to Homepage</a>
+
 </body>
 </html>

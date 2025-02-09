@@ -1,21 +1,39 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ page pageEncoding="UTF-8" %>
-<%@ page import="entity.User" %>
-<%
-    User user = (User) session.getAttribute("user");
-    if (user == null) {
-        response.sendRedirect("login.jsp");
-        return;
-    }
-%>
 <!DOCTYPE html>
 <html>
 <head>
     <title>User Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        .nav-button {
+            display: block;
+            width: 250px;
+            padding: 15px;
+            margin: 10px auto;
+            background-color: #007BFF;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        .nav-button:hover {
+            background-color: #0056b3;
+        }
+    </style>
 </head>
 <body>
-    <h2>Welcome, <%= user.getUsername() %></h2>
-    <p>This is your user dashboard.</p>
-    <a href="LogoutServlet">Logout</a>
+
+    <h1>Welcome, <%= session.getAttribute("username") %>!</h1>
+    <h2>User Dashboard</h2>
+
+    <a href="SearchServlet" class="nav-button">Browse Books & Accessories</a>
+    <a href="cart.jsp" class="nav-button">View Cart</a>
+    <a href="order-history.jsp" class="nav-button">Order History</a>
+    <a href="LogoutServlet" class="nav-button">Logout</a>
+
+
 </body>
 </html>

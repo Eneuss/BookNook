@@ -19,5 +19,9 @@
     </form>
     
     <p>Don't have an account? <a href="register.jsp">Register here</a></p>
+    <p>Or </p>
+    <a href="home.jsp" class="nav-button">Return to Homepage</a>
+
 </body>
 </html>
+

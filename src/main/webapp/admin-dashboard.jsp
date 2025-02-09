@@ -1,21 +1,39 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ page pageEncoding="UTF-8" %>
-<%@ page import="entity.User" %>
-<%
-    User user = (User) session.getAttribute("user");
-    if (user == null || !"admin".equals(user.getRole())) {
-        response.sendRedirect("login.jsp");
-        return;
-    }
-%>
 <!DOCTYPE html>
 <html>
 <head>
     <title>Admin Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        .nav-button {
+            display: block;
+            width: 250px;
+            padding: 15px;
+            margin: 10px auto;
+            background-color: #28a745;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        .nav-button:hover {
+            background-color: #218838;
+        }
+    </style>
 </head>
 <body>
-    <h2>Welcome, <%= user.getUsername() %> (Admin)</h2>
-    <p>This is the admin dashboard.</p>
-    <a href="LogoutServlet">Logout</a>
+
+    <h1>Welcome, Admin <%= session.getAttribute("username") %>!</h1>
+    <h2>Admin Dashboard</h2>
+
+    <a href="manage-products.jsp" class="nav-button">Manage Books & Accessories</a>
+    <a href="manage-users.jsp" class="nav-button">Manage Users</a>
+    <a href="manage-categories.jsp" class="nav-button">Manage Categories</a>
+    <a href="LogoutServlet" class="nav-button">Logout</a>
+
+
 </body>
 </html>

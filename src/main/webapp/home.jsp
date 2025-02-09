@@ -35,6 +35,7 @@
 
     <a href="SearchServlet" class="nav-button">Browse Books & Accessories</a>
     <a href="login.jsp" class="nav-button">Login</a>
+    <a href="register.jsp" class="nav-button">Register</a>
 
 </body>
 </html>
