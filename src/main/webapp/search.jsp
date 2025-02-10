@@ -68,10 +68,9 @@
 
                     <% if (showCartOptions) { %> 
                         <!-- ✅ Show "Add to Cart" only for regular users -->
-                        <form action="CartServlet" method="POST">
+                        <form action="AddToCartServlet" method="POST">
                             <input type="hidden" name="productType" value="book">
                             <input type="hidden" name="productId" value="<%= book.getId() %>">
-                            <input type="hidden" name="productName" value="<%= book.getTitle() %>">
                             <input type="hidden" name="productPrice" value="<%= book.getPrice() %>">
                             <button type="submit">Add to Cart</button>
                         </form>
@@ -99,10 +98,9 @@
 
                     <% if (showCartOptions) { %> 
                         <!-- ✅ Show "Add to Cart" only for regular users -->
-                        <form action="CartServlet" method="POST">
+                        <form action="AddToCartServlet" method="POST">
                             <input type="hidden" name="productType" value="accessory">
                             <input type="hidden" name="productId" value="<%= accessory.getId() %>">
-                            <input type="hidden" name="productName" value="<%= accessory.getName() %>">
                             <input type="hidden" name="productPrice" value="<%= accessory.getPrice() %>">
                             <button type="submit">Add to Cart</button>
                         </form>

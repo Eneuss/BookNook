@@ -2,15 +2,12 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-
 package servlets;
 
 import dao.UserDAO;
-import dao.CartDAO;
 import entity.User;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.List;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -22,7 +19,6 @@ import jakarta.servlet.http.HttpSession;
 public class LoginServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
     private final UserDAO userDAO = new UserDAO();
-    private final CartDAO cartDAO = new CartDAO();
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String username = request.getParameter("username");
@@ -31,19 +27,15 @@ public class LoginServlet extends HttpServlet {
         try {
             User user = userDAO.authenticateUser(username, password);
             if (user != null) {
-                HttpSession session = request.getSession(true); // ✅ Ensure session is created
+                HttpSession session = request.getSession(true);
 
-                session.setAttribute("userId", user.getId()); // ✅ Store user ID
+                session.setAttribute("userId", user.getId());
                 session.setAttribute("username", user.getUsername());
-                session.setAttribute("role", user.getRole()); // ✅ Store role
+                session.setAttribute("role", user.getRole());
 
                 // ✅ Debugging
                 System.out.println("✅ User ID set: " + session.getAttribute("userId"));
                 System.out.println("✅ Role set: " + session.getAttribute("role"));
-
-                // ✅ Load user's cart from database
-                List<Object> cart = cartDAO.getUserCart(user.getId());
-                session.setAttribute("cart", cart);
 
                 // ✅ Redirect to correct dashboard
                 if ("admin".equals(user.getRole())) {
