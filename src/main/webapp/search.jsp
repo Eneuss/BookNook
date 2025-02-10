@@ -52,6 +52,8 @@
     <h3>Books</h3>
     <%
         Integer userId = (Integer) session.getAttribute("userId");
+        String userRole = (String) session.getAttribute("role");
+        boolean showCartOptions = (userId != null && !"admin".equals(userRole)); // ✅ Only regular users see cart options
         List<Book> books = (List<Book>) session.getAttribute("books");
 
         if (books != null && !books.isEmpty()) {
@@ -64,8 +66,8 @@
                     - Price: $<%= book.getPrice() %>
                     - Stock: <%= book.getStock() %>
 
-                    <% if (userId != null) { %> 
-                        <!-- ✅ Show "Add to Cart" only for logged-in users -->
+                    <% if (showCartOptions) { %> 
+                        <!-- ✅ Show "Add to Cart" only for regular users -->
                         <form action="CartServlet" method="POST">
                             <input type="hidden" name="productType" value="book">
                             <input type="hidden" name="productId" value="<%= book.getId() %>">
@@ -95,8 +97,8 @@
                     - Price: $<%= accessory.getPrice() %>
                     - Stock: <%= accessory.getStock() %>
 
-                    <% if (userId != null) { %> 
-                        <!-- ✅ Show "Add to Cart" only for logged-in users -->
+                    <% if (showCartOptions) { %> 
+                        <!-- ✅ Show "Add to Cart" only for regular users -->
                         <form action="CartServlet" method="POST">
                             <input type="hidden" name="productType" value="accessory">
                             <input type="hidden" name="productId" value="<%= accessory.getId() %>">
@@ -113,17 +115,15 @@
         <p>No accessories available.</p>
     <% } %>
 
-    <% if (userId != null) { %>
-        <!-- ✅ Show "View Cart" only for logged-in users -->
+    <% if (showCartOptions) { %>
+        <!-- ✅ Show "View Cart" only for regular users -->
         <br>
         <a href="cart.jsp">View Cart</a>
     <% } %>
 
     <br><br>
 
-    <!-- ✅ "Return to Homepage" Button with Conditional Redirect -->
     <%
-        String userRole = (String) session.getAttribute("role");
         String redirectPage = "home.jsp"; // Default for guests
 
         if (userId != null) {
@@ -135,7 +135,7 @@
         }
     %>
 
-    <a href="<%= redirectPage %>" class="nav-button">Return to home page</a>
+    <a href="<%= redirectPage %>" class="nav-button">Return to Dashboard</a>
 
 </body>
 </html>

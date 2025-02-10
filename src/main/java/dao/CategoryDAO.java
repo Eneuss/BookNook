@@ -12,28 +12,28 @@ import java.util.List;
 public class CategoryDAO {
 
     // Method to add a new category
-    public void addCategory(Category category) throws SQLException {
+    public void addCategory(String category) throws SQLException {
         String sql = "INSERT INTO Categories (name) VALUES (?)";
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setString(1, category.getName());
+            stmt.setString(1, category);
             stmt.executeUpdate();
         }
     }
 
     // Method to retrieve category name by ID
-    public String getCategoryNameById(int categoryId) throws SQLException {
-        String sql = "SELECT name FROM Categories WHERE id = ?";
+    public Category getCategoryById(int categoryId) throws SQLException {
+        String sql = "SELECT id, name FROM Categories WHERE id = ?";
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, categoryId);
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
-                    return rs.getString("name");
+                    return new Category(rs.getInt("id"), rs.getString("name"));
                 }
             }
         }
-        return null; // Return null if category not found
+        return null; // ✅ Return null if category is not found
     }
 
     public List<String> getAllCategories() throws SQLException {
@@ -67,4 +67,28 @@ public class CategoryDAO {
         }
         return categories;
     }
+    
+    
+    //update an existing category
+    public boolean updateCategory(int categoryId, String categoryName) throws SQLException {
+        String sql = "UPDATE Categories SET name = ? WHERE id = ?";
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, categoryName);
+            stmt.setInt(2, categoryId);
+            int rowsAffected = stmt.executeUpdate();
+            return rowsAffected > 0;
+        }
+    }
+    
+    //delete a category
+    public void deleteCategory(int categoryId) throws SQLException {
+        String sql = "DELETE FROM Categories WHERE id = ?";
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, categoryId);
+            stmt.executeUpdate();
+        }
+    }
+    
 }

@@ -20,9 +20,7 @@ public class TestBookDAO {
 
         try {
             // Insert test books
-            bookDAO.addBook(new Book(0, "The Great Gatsby", "F. Scott Fitzgerald", 10.99, 5, 1));
-            bookDAO.addBook(new Book(0, "To Kill a Mockingbird", "Harper Lee", 12.50, 7, 2));
-            bookDAO.addBook(new Book(0, "1984", "George Orwell", 8.75, 10, 3));
+            
 
             // Retrieve all books
             List<Book> books = bookDAO.getAllBooks();

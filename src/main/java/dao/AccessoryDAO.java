@@ -11,13 +11,37 @@ import java.util.List;
 
 public class AccessoryDAO {
 
-    public void addAccessory(Accessory accessory) throws SQLException {
+    // adds an accessory
+    public void addAccessory(String name, double price, int stock) throws SQLException {
         String sql = "INSERT INTO Accessories (name, price, stock) VALUES (?, ?, ?)";
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setString(1, accessory.getName());
-            stmt.setDouble(2, accessory.getPrice());
-            stmt.setInt(3, accessory.getStock());
+            stmt.setString(1, name);
+            stmt.setDouble(2, price);
+            stmt.setInt(3, stock);
+            stmt.executeUpdate();
+        }
+    }
+    
+     //update an accessory
+    public void updateAccessory(int accessoryId, String name, double price, int stock) throws SQLException {
+        String sql = "UPDATE Accessories SET name = ?, price = ?, stock = ? WHERE id = ?";
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, name);
+            stmt.setDouble(2, price);
+            stmt.setInt(3, stock);
+            stmt.setInt(4, accessoryId);
+            stmt.executeUpdate();
+        }
+    }
+
+    //delete an accessory
+    public void deleteAccessory(int accessoryId) throws SQLException {
+        String sql = "DELETE FROM Accessories WHERE id = ?";
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, accessoryId);
             stmt.executeUpdate();
         }
     }
@@ -38,6 +62,27 @@ public class AccessoryDAO {
             }
         }
         return accessories;
+    }
+    
+    
+    //retrieve an accessory by ID
+    public Accessory getAccessoryById(int accessoryId) throws SQLException {
+        String sql = "SELECT id, name, price, stock FROM Accessories WHERE id = ?";
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, accessoryId);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return new Accessory(
+                        rs.getInt("id"),
+                        rs.getString("name"),
+                        rs.getDouble("price"),
+                        rs.getInt("stock")
+                    );
+                }
+            }
+        }
+        return null;
     }
     
     

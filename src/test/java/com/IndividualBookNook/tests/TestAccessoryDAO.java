@@ -19,10 +19,7 @@ public class TestAccessoryDAO {
         AccessoryDAO accessoryDAO = new AccessoryDAO();
 
         try {
-            // Insert test accessories
-            accessoryDAO.addAccessory(new Accessory(0, "Bookmark", 2.99, 50));
-            accessoryDAO.addAccessory(new Accessory(0, "Reading Lamp", 14.99, 15));
-            accessoryDAO.addAccessory(new Accessory(0, "Book Cover", 5.50, 30));
+            
 
             // Retrieve all accessories
             List<Accessory> accessories = accessoryDAO.getAllAccessories();

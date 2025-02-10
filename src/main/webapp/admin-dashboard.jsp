@@ -29,9 +29,10 @@
     <h1>Welcome, Admin <%= session.getAttribute("username") %>!</h1>
     <h2>Admin Dashboard</h2>
 
-    <a href="manage-products.jsp" class="nav-button">Manage Books & Accessories</a>
-    <a href="manage-users.jsp" class="nav-button">Manage Users</a>
-    <a href="manage-categories.jsp" class="nav-button">Manage Categories</a>
+    <a href="ManageProductsServlet" class="nav-button">Manage Books & Accessories</a>
+    <a href="SearchServlet" class="nav-button">Search Products</a>
+    <a href="ManageUsersServlet" class="nav-button">Manage Users</a>
+    <a href="ManageCategoriesServlet" class="nav-button">Manage Categories</a>
     <a href="LogoutServlet" class="nav-button">Logout</a>
 
 

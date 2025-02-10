@@ -15,6 +15,50 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserDAO {
+    
+    public List<User> getAllRegularUsers() throws SQLException {
+        List<User> users = new ArrayList<>();
+        String sql = "SELECT id, username, email, password FROM Users WHERE role = 'user'";
+
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+            while (rs.next()) {
+                users.add(new User(
+                    rs.getInt("id"),
+                    rs.getString("username"),
+                    rs.getString("email"),
+                    rs.getString("password"),
+                    "user"
+                ));
+            }
+        }
+        return users;
+    }
+    
+    public boolean updateUser(int userId, String username, String email, String password) throws SQLException {
+        String sql = "UPDATE Users SET username = ?, email = ?, password = ? WHERE id = ?";
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, username);
+            stmt.setString(2, email);
+            stmt.setString(3, password);
+            stmt.setInt(4, userId);
+
+            int rowsAffected = stmt.executeUpdate();
+            return rowsAffected > 0;
+        }
+    }
+    
+    public void deleteUser(int userId) throws SQLException {
+        String sql = "DELETE FROM Users WHERE id = ?";
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, userId);
+            stmt.executeUpdate();
+        }
+    }
 
     // Register a new user
     public void registerUser(User user) throws SQLException {
@@ -65,23 +109,23 @@ public class UserDAO {
 
     // Retrieve user details by ID
     public User getUserById(int userId) throws SQLException {
-        String sql = "SELECT * FROM Users WHERE id = ?";
+        String sql = "SELECT id, username, email, password FROM Users WHERE id = ?";
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, userId);
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
                     return new User(
-                            rs.getInt("id"),
-                            rs.getString("username"),
-                            rs.getString("email"),
-                            rs.getString("password"),
-                            rs.getString("role")
+                        rs.getInt("id"),
+                        rs.getString("username"),
+                        rs.getString("email"),
+                        rs.getString("password"),
+                        "user"
                     );
                 }
             }
         }
-        return null; // Return null if no user is found
+        return null; // ✅ Return null if user is not found
     }
 
     // Retrieve all users (for admin)

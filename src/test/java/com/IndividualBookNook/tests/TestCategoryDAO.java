@@ -19,10 +19,7 @@ public class TestCategoryDAO {
         CategoryDAO categoryDAO = new CategoryDAO();
 
         try {
-            // Add test categories
-            categoryDAO.addCategory(new Category(0, "Fiction"));
-            categoryDAO.addCategory(new Category(0, "Non-Fiction"));
-            categoryDAO.addCategory(new Category(0, "Science Fiction"));
+            
 
             // Retrieve all categories
             List<Category> categories = categoryDAO.getAllCategoriesWithId();
@@ -32,8 +29,8 @@ public class TestCategoryDAO {
             }
 
             // Retrieve category name by ID
-            String categoryName = categoryDAO.getCategoryNameById(1);
-            System.out.println("Category with ID 1: " + categoryName);
+            
+            
 
         } catch (SQLException e) {
             e.printStackTrace();
