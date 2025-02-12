@@ -25,7 +25,6 @@
     </style>
 </head>
 <body>
-
     <h1>Welcome, Admin <%= session.getAttribute("username") %>!</h1>
     <h2>Admin Dashboard</h2>
 
@@ -34,7 +33,5 @@
     <a href="ManageUsersServlet" class="nav-button">Manage Users</a>
     <a href="ManageCategoriesServlet" class="nav-button">Manage Categories</a>
     <a href="LogoutServlet" class="nav-button">Logout</a>
-
-
 </body>
 </html>

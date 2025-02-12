@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BookDAO {
-
+    //add a book
     public void addBook(String title, String author, double price, int stock, int categoryId) throws SQLException {
         String sql = "INSERT INTO Books (title, author, price, stock, category_id) VALUES (?, ?, ?, ?, ?)";
         try (Connection conn = DatabaseConnection.getConnection();

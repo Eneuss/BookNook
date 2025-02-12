@@ -23,12 +23,12 @@ public class EditCategoryServlet extends HttpServlet {
             int categoryId = Integer.parseInt(request.getParameter("id"));
             String categoryName = request.getParameter("categoryName");
 
-            categoryDAO.updateCategory(categoryId, categoryName); // ✅ Update category in DB
-            response.sendRedirect("ManageCategoriesServlet"); // ✅ Refresh category list
+            categoryDAO.updateCategory(categoryId, categoryName); //update category in database
+            response.sendRedirect("ManageCategoriesServlet"); //refresh category list
 
         } catch (SQLException | NumberFormatException e) {
             e.printStackTrace();
-            response.sendRedirect("ManageCategoriesServlet"); // ✅ Redirect in case of error
+            response.sendRedirect("ManageCategoriesServlet"); //redirect in case of error
         }
     }
 }

@@ -33,10 +33,10 @@ public class OrderHistoryServlet extends HttpServlet {
         try {
             List<Order> orders = orderDAO.getUserOrders(userId);
 
-            // ✅ Store orders in session (same method as cart and search)
+            //store orders in session (same method as cart and search)
             session.setAttribute("orders", orders);
 
-            response.sendRedirect("order-history.jsp"); // ✅ Redirect instead of forwarding
+            response.sendRedirect("order-history.jsp"); //redirect instead of forwarding
         } catch (SQLException e) {
             e.printStackTrace();
             response.sendRedirect("user-dashboard.jsp");

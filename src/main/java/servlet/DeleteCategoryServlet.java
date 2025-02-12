@@ -21,11 +21,11 @@ public class DeleteCategoryServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             int categoryId = Integer.parseInt(request.getParameter("id"));
-            categoryDAO.deleteCategory(categoryId); // ✅ Delete category from DB
+            categoryDAO.deleteCategory(categoryId); //delete category from DB
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
-        response.sendRedirect("ManageCategoriesServlet"); // ✅ Refresh category list
+        response.sendRedirect("ManageCategoriesServlet"); //refresh category list
     }
 }

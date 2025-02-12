@@ -31,7 +31,6 @@
 <body>
 
     <h1>Welcome to BookNook</h1>
-    <p>Your one-stop shop for books and accessories!</p>
 
     <a href="SearchServlet" class="nav-button">Browse Books & Accessories</a>
     <a href="login.jsp" class="nav-button">Login</a>

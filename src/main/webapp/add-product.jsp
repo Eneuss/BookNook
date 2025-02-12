@@ -70,7 +70,6 @@
             }
         }
         
-        // Ensure correct fields are shown on page load
         window.onload = toggleFields;
     </script>
 

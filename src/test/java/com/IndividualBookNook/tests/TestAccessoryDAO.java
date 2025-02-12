@@ -13,24 +13,18 @@ import dao.AccessoryDAO;
 import entity.Accessory;
 import java.sql.SQLException;
 import java.util.List;
+import org.junit.jupiter.api.*;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TestAccessoryDAO {
-    public static void main(String[] args) {
-        AccessoryDAO accessoryDAO = new AccessoryDAO();
 
-        try {
-            
+    private final AccessoryDAO accessoryDAO = new AccessoryDAO();
 
-            // Retrieve all accessories
-            List<Accessory> accessories = accessoryDAO.getAllAccessories();
-            System.out.println("Accessories in the database:");
-            for (Accessory accessory : accessories) {
-                System.out.println(accessory.getId() + ": " + accessory.getName() +
-                        " - Price: $" + accessory.getPrice() + " - Stock: " + accessory.getStock());
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+    @Test
+    public void testGetAllAccessories() throws SQLException {
+        List<Accessory> accessories = accessoryDAO.getAllAccessories();
+        assertNotNull(accessories, "Accessory list should not be null.");
+        assertFalse(accessories.isEmpty(), "Accessory list should not be empty.");
     }
 }

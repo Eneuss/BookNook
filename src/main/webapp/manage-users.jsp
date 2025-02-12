@@ -26,14 +26,14 @@
             <th>Username</th><th>Email</th><th>Password</th><th>Actions</th>
         </tr>
         <%
-            List<User> users = (List<User>) request.getAttribute("users"); // ✅ Get users from request
+            List<User> users = (List<User>) request.getAttribute("users");
             if (users != null && !users.isEmpty()) {
                 for (User user : users) {
         %>
             <tr>
                 <td><%= user.getUsername() %></td>
                 <td><%= user.getEmail() %></td>
-                <td><%= user.getPassword() %></td> <!-- ✅ Password column added -->
+                <td><%= user.getPassword() %></td> 
                 <td>
                     <a href="edit-user.jsp?id=<%= user.getId() %>" class="edit-button">Edit</a>
                     <a href="DeleteUserServlet?id=<%= user.getId() %>" class="delete-button">Delete</a>

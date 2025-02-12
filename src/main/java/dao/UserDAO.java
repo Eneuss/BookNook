@@ -60,32 +60,32 @@ public class UserDAO {
         }
     }
 
-    // Register a new user
+    //register a new user
     public void registerUser(User user) throws SQLException {
         String sql = "INSERT INTO Users (username, email, password, role) VALUES (?, ?, ?, ?)";
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, user.getUsername());
             stmt.setString(2, user.getEmail());
-            stmt.setString(3, user.getPassword());  // Plaintext for now, should be hashed in production
+            stmt.setString(3, user.getPassword());  //plaintext for now, should be hashed in production
             stmt.setString(4, user.getRole());
             stmt.executeUpdate();
         }
     }
 
-    // Check if a username already exists
+    //check if a username already exists
     public boolean doesUsernameExist(String username) throws SQLException {
         String sql = "SELECT id FROM Users WHERE username = ?";
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, username);
             try (ResultSet rs = stmt.executeQuery()) {
-                return rs.next(); // Returns true if user exists
+                return rs.next(); //returns true if user exists
             }
         }
     }
 
-    // Verify user credentials for login
+    //verify user credentials for login
     public User authenticateUser(String username, String password) throws SQLException {
         String sql = "SELECT * FROM Users WHERE username = ? AND password = ?";
         try (Connection conn = DatabaseConnection.getConnection();
@@ -104,10 +104,10 @@ public class UserDAO {
                 }
             }
         }
-        return null; // Return null if authentication fails
+        return null; //return null if authentication fails
     }
 
-    // Retrieve user details by ID
+    //retrieve user details by ID
     public User getUserById(int userId) throws SQLException {
         String sql = "SELECT id, username, email, password FROM Users WHERE id = ?";
         try (Connection conn = DatabaseConnection.getConnection();
@@ -125,10 +125,10 @@ public class UserDAO {
                 }
             }
         }
-        return null; // ✅ Return null if user is not found
+        return null; //return null if user is not found
     }
 
-    // Retrieve all users (for admin)
+    //retrieve all users (for admin)
     public List<User> getAllUsers() throws SQLException {
         List<User> users = new ArrayList<>();
         String sql = "SELECT * FROM Users";
@@ -147,4 +147,14 @@ public class UserDAO {
         }
         return users;
     }
+    
+    //Used in TestUserDAO
+    public void deleteUserByEmail(String email) throws SQLException {
+    String sql = "DELETE FROM Users WHERE email = ?";
+    try (Connection conn = DatabaseConnection.getConnection();
+         PreparedStatement stmt = conn.prepareStatement(sql)) {
+        stmt.setString(1, email);
+        stmt.executeUpdate();
+    }
+}
 }

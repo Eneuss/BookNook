@@ -13,27 +13,18 @@ import dao.BookDAO;
 import entity.Book;
 import java.sql.SQLException;
 import java.util.List;
+import org.junit.jupiter.api.*;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TestBookDAO {
-    public static void main(String[] args) {
-        BookDAO bookDAO = new BookDAO();
 
-        try {
-            // Insert test books
-            
+    private final BookDAO bookDAO = new BookDAO();
 
-            // Retrieve all books
-            List<Book> books = bookDAO.getAllBooks();
-            System.out.println("Books in the database:");
-            for (Book book : books) {
-                System.out.println(book.getId() + ": " + book.getTitle() + " by " + book.getAuthor() +
-                        " - Price: $" + book.getPrice() + " - Stock: " + book.getStock() + 
-                        " - Category ID: " + book.getCategoryId());
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+    @Test
+    public void testGetAllBooks() throws SQLException {
+        List<Book> books = bookDAO.getAllBooks();
+        assertNotNull(books, "Book list should not be null.");
+        assertFalse(books.isEmpty(), "Book list should not be empty.");
     }
 }
-

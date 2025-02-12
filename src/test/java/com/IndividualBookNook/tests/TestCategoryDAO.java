@@ -13,28 +13,26 @@ import dao.CategoryDAO;
 import entity.Category;
 import java.sql.SQLException;
 import java.util.List;
+import org.junit.jupiter.api.*;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TestCategoryDAO {
-    public static void main(String[] args) {
-        CategoryDAO categoryDAO = new CategoryDAO();
 
-        try {
-            
+    private final CategoryDAO categoryDAO = new CategoryDAO();
 
-            // Retrieve all categories
-            List<Category> categories = categoryDAO.getAllCategoriesWithId();
-            System.out.println("Categories in the database:");
-            for (Category category : categories) {
-                System.out.println(category.getId() + ": " + category.getName());
-            }
+    @Test
+    public void testRetrieveCategories() throws SQLException {
+        List<Category> categories = categoryDAO.getAllCategoriesWithId();
 
-            // Retrieve category name by ID
-            
-            
-
-        } catch (SQLException e) {
-            e.printStackTrace();
+        //ensure the category list is not null and has elements
+        assertNotNull(categories, "Category list should not be null.");
+        assertFalse(categories.isEmpty(), "Category list should not be empty.");
+        
+        //print retrieved categories for debugging
+        System.out.println("Total Categories Retrieved: " + categories.size());
+        for (Category category : categories) {
+            System.out.println(category.getId() + " - " + category.getName());
         }
     }
 }
-

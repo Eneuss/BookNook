@@ -30,7 +30,7 @@ public class OrderDAO {
 
             try (ResultSet rs = stmt.getGeneratedKeys()) {
                 if (rs.next()) {
-                    return rs.getInt(1); // Return generated order ID
+                    return rs.getInt(1); //return generated order ID
                 }
             }
         }
@@ -90,7 +90,7 @@ public class OrderDAO {
     }
     
     
-    // ✅ Retrieve all orders for a user
+    //retrieve all orders for a user
     public List<Order> getUserOrders(int userId) throws SQLException {
         List<Order> orders = new ArrayList<>();
         String sql = "SELECT id, order_date, total_price FROM Orders WHERE user_id = ? ORDER BY order_date DESC";
@@ -114,7 +114,7 @@ public class OrderDAO {
         return orders;
     }
 
-    // ✅ Retrieve books & accessories for an order
+    //retrieve books & accessories for an order
     private List<OrderItem> getOrderItems(int orderId, Connection conn) throws SQLException {
         List<OrderItem> items = new ArrayList<>();
         String sql = "SELECT 'book' AS type, b.title, ob.quantity, ob.price_at_purchase FROM Order_Books ob " +
@@ -139,6 +139,16 @@ public class OrderDAO {
         }
         return items;
     }
+    
+    //used in TestOrderDAO
+    public void deleteOrder(int orderId) throws SQLException {
+    String sql = "DELETE FROM Orders WHERE id = ?";
+    try (Connection conn = DatabaseConnection.getConnection();
+         PreparedStatement stmt = conn.prepareStatement(sql)) {
+        stmt.setInt(1, orderId);
+        stmt.executeUpdate();
+    }
+}
     
 }
 

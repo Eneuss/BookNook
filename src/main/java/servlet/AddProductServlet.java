@@ -38,6 +38,6 @@ public class AddProductServlet extends HttpServlet {
             e.printStackTrace();
         }
 
-        response.sendRedirect("ManageProductsServlet"); // ✅ Refresh product list
+        response.sendRedirect("ManageProductsServlet"); //refresh product list
     }
 }

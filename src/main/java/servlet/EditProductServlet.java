@@ -36,11 +36,11 @@ public class EditProductServlet extends HttpServlet {
                 accessoryDAO.updateAccessory(productId, productName, price, stock);
             }
 
-            response.sendRedirect("ManageProductsServlet"); // ✅ Refresh product list
+            response.sendRedirect("ManageProductsServlet"); //refresh product list
 
         } catch (SQLException | NumberFormatException e) {
             e.printStackTrace();
-            response.sendRedirect("ManageProductsServlet"); // ✅ Redirect in case of error
+            response.sendRedirect("ManageProductsServlet"); //redirect in case of error
         }
     }
 }

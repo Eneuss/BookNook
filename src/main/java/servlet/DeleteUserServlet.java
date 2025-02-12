@@ -22,11 +22,11 @@ public class DeleteUserServlet extends HttpServlet {
         int userId = Integer.parseInt(request.getParameter("id"));
 
         try {
-            userDAO.deleteUser(userId); // ✅ Delete user from DB
+            userDAO.deleteUser(userId); //delete user from database
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
-        response.sendRedirect("ManageUsersServlet"); // ✅ Refresh user list
+        response.sendRedirect("ManageUsersServlet"); //refresh user list
     }
 }

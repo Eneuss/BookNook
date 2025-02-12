@@ -33,10 +33,10 @@ public class CartServlet extends HttpServlet {
         int productId = Integer.parseInt(request.getParameter("productId"));
         String productName = request.getParameter("productName");
         double productPrice = Double.parseDouble(request.getParameter("productPrice"));
-        int quantity = 1; // Default to 1 for now
+        int quantity = 1;
 
         if (userId != null) {
-            // ✅ User is logged in → Store cart item in the database
+            //store cart item in the database for logged user
             try (Connection conn = DatabaseConnection.getConnection()) {
                 String sql = "INSERT INTO Cart (user_id, item_type, item_id, quantity) VALUES (?, ?, ?, ?) "
                            + "ON CONFLICT(user_id, item_type, item_id) DO UPDATE SET quantity = quantity + 1";
@@ -51,7 +51,6 @@ public class CartServlet extends HttpServlet {
                 e.printStackTrace();
             }
         } else {
-            // ✅ User is NOT logged in → Store in session
             List<Object> cart = (List<Object>) session.getAttribute("cart");
             if (cart == null) {
                 cart = new ArrayList<>();

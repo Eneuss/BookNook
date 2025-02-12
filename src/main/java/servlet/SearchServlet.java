@@ -32,35 +32,35 @@ public class SearchServlet extends HttpServlet {
         CategoryDAO categoryDAO = new CategoryDAO();
 
         try {
-            // Fetch all books, accessories, and categories
+            //fetch all books, accessories, and categories
             List<Book> books = bookDAO.getAllBooks();
             List<Accessory> accessories = accessoryDAO.getAllAccessories();
             List<Category> categories = categoryDAO.getAllCategoriesWithId();
 
-            // Create a HashMap to store categoryId → categoryName mapping
+            //HashMap to store categoryId into categoryName mapping
             HashMap<Integer, String> categoryMap = new HashMap<>();
             for (Category category : categories) {
                 categoryMap.put(category.getId(), category.getName());
             }
 
-            // ✅ Get search query safely
+            //get search query safely
             String searchQuery = request.getParameter("searchQuery");
             if (searchQuery != null && !searchQuery.trim().isEmpty()) {
-                final String searchLower = searchQuery.trim().toLowerCase(); // ✅ Declare final variable
+                final String searchLower = searchQuery.trim().toLowerCase(); //declare final variable
 
-                // ✅ Ensure books and accessories are filtered properly
+                //ensure books and accessories are filtered properly
                 books.removeIf(book -> !(book.getTitle().toLowerCase().contains(searchLower) ||
                                          book.getAuthor().toLowerCase().contains(searchLower)));
 
                 accessories.removeIf(accessory -> !accessory.getName().toLowerCase().contains(searchLower));
             }
 
-            // Use session attributes instead of request attributes
+            //use session attributes instead of request attributes
             request.getSession().setAttribute("books", books);
             request.getSession().setAttribute("accessories", accessories);
             request.getSession().setAttribute("categories", categoryMap);
 
-            // Redirect to search.jsp
+            //redirect to search.jsp
             response.sendRedirect("search.jsp");
 
         } catch (SQLException e) {

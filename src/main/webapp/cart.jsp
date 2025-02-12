@@ -21,9 +21,7 @@
     </style>
 </head>
 <body>
-
     <h2>Your Shopping Cart</h2>
-
     <%
         Integer userId = (Integer) session.getAttribute("userId");
         List<Cart> cartItems = null;
@@ -85,9 +83,8 @@
     <%
         }
     %>
-
     <br><br>
-    <a href="search.jsp" class="nav-button">Return to Search</a>
+    <a href="SearchServlet" class="nav-button">Return to Search</a>
 
 </body>
 </html>

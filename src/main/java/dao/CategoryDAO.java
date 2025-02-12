@@ -11,7 +11,7 @@ import java.util.List;
 
 public class CategoryDAO {
 
-    // Method to add a new category
+    //add a new category
     public void addCategory(String category) throws SQLException {
         String sql = "INSERT INTO Categories (name) VALUES (?)";
         try (Connection conn = DatabaseConnection.getConnection();
@@ -21,7 +21,7 @@ public class CategoryDAO {
         }
     }
 
-    // Method to retrieve category name by ID
+    //retrieve category name by ID
     public Category getCategoryById(int categoryId) throws SQLException {
         String sql = "SELECT id, name FROM Categories WHERE id = ?";
         try (Connection conn = DatabaseConnection.getConnection();
@@ -33,7 +33,7 @@ public class CategoryDAO {
                 }
             }
         }
-        return null; // ✅ Return null if category is not found
+        return null; //return null if category is not found
     }
 
     public List<String> getAllCategories() throws SQLException {
@@ -50,7 +50,7 @@ public class CategoryDAO {
         return categories;
     }
     
-    //Get all categories with ID for mapping in search.jsp
+    //get all categories with ID for mapping in search.jsp
     public List<Category> getAllCategoriesWithId() throws SQLException {
         List<Category> categories = new ArrayList<>();
         String sql = "SELECT id, name FROM Categories";

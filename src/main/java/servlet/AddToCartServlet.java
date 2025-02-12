@@ -33,18 +33,18 @@ public class AddToCartServlet extends HttpServlet {
             String itemType = request.getParameter("productType");
             double price = Double.parseDouble(request.getParameter("productPrice"));
 
-            // ✅ Add item to the cart or update quantity if already exists
+            //add item to the cart or update quantity
             cartDAO.addOrUpdateCartItem(userId, itemId, itemType, price);
 
-            // ✅ Store a confirmation message in session
+            //store a confirmation message in session
             session.setAttribute("cartMessage", "Product added to cart successfully!");
 
-            // ✅ Redirect back to `search.jsp`
+            //redirect back to `search.jsp`
             response.sendRedirect("search.jsp");
 
         } catch (SQLException | NumberFormatException e) {
             e.printStackTrace();
-            response.sendRedirect("search.jsp"); // Redirect back to product search in case of error
+            response.sendRedirect("search.jsp"); //redirect back to product search in case of error
         }
     }
 }

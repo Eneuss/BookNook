@@ -27,18 +27,18 @@ public class RegisterServlet extends HttpServlet {
         UserDAO userDAO = new UserDAO();
 
         try {
-            // Check if the username is already taken
+            //check if the username is already taken
             if (userDAO.doesUsernameExist(username)) {
                 request.setAttribute("errorMessage", "Username already exists. Choose another one.");
                 request.getRequestDispatcher("register.jsp").forward(request, response);
                 return;
             }
 
-            // Register new user
+            //register new user
             User newUser = new User(username, email, password, role);
             userDAO.registerUser(newUser);
             
-            // Redirect to login page
+            //redirect to login page
             request.setAttribute("successMessage", "Registration successful! Please log in.");
             request.getRequestDispatcher("login.jsp").forward(request, response);
             

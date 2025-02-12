@@ -53,7 +53,7 @@
     <%
         Integer userId = (Integer) session.getAttribute("userId");
         String userRole = (String) session.getAttribute("role");
-        boolean showCartOptions = (userId != null && !"admin".equals(userRole)); // ✅ Only regular users see cart options
+        boolean showCartOptions = (userId != null && !"admin".equals(userRole));
         List<Book> books = (List<Book>) session.getAttribute("books");
 
         if (books != null && !books.isEmpty()) {
@@ -67,7 +67,7 @@
                     - Stock: <%= book.getStock() %>
 
                     <% if (showCartOptions) { %> 
-                        <!-- ✅ Show "Add to Cart" only for regular users -->
+                        <!--here we show "Add to Cart" only for regular users -->
                         <form action="AddToCartServlet" method="POST">
                             <input type="hidden" name="productType" value="book">
                             <input type="hidden" name="productId" value="<%= book.getId() %>">
@@ -97,7 +97,6 @@
                     - Stock: <%= accessory.getStock() %>
 
                     <% if (showCartOptions) { %> 
-                        <!-- ✅ Show "Add to Cart" only for regular users -->
                         <form action="AddToCartServlet" method="POST">
                             <input type="hidden" name="productType" value="accessory">
                             <input type="hidden" name="productId" value="<%= accessory.getId() %>">

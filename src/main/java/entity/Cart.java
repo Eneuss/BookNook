@@ -7,7 +7,7 @@ package entity;
 public class Cart {
     private int id;
     private int userId;
-    private String itemType; // "book" or "accessory"
+    private String itemType; //book or accessory
     private int itemId;
     private int quantity;
 
@@ -19,14 +19,14 @@ public class Cart {
         this.quantity = quantity;
     }
 
-    // Getters
+    //getters
     public int getId() { return id; }
     public int getUserId() { return userId; }
     public String getItemType() { return itemType; }
     public int getItemId() { return itemId; }
     public int getQuantity() { return quantity; }
 
-    // Setters
+    //setters
     public void setId(int id) { this.id = id; }
     public void setUserId(int userId) { this.userId = userId; }
     public void setItemType(String itemType) { this.itemType = itemType; }

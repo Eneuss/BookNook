@@ -26,7 +26,7 @@
 
     <%
         List<Order> orders = (List<Order>) session.getAttribute("orders");
-        DecimalFormat df = new DecimalFormat("0.00"); // ✅ Fix: Format prices to 2 decimal places
+        DecimalFormat df = new DecimalFormat("0.00");
 
         if (orders != null && !orders.isEmpty()) {
     %>

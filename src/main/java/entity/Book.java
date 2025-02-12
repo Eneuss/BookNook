@@ -21,7 +21,7 @@ public class Book {
         this.categoryId = categoryId;
     }
 
-    // Getters and Setters
+    //getters and Setters
     public int getId() { return id; }
     public void setId(int id) { this.id = id; }
 

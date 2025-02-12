@@ -24,11 +24,11 @@ public class ManageUsersServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             List<User> users = userDAO.getAllRegularUsers();
-            request.setAttribute("users", users); // ✅ Store users in request scope
+            request.setAttribute("users", users); //store users in the session
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
-        request.getRequestDispatcher("manage-users.jsp").forward(request, response); // ✅ Forward to JSP
+        request.getRequestDispatcher("manage-users.jsp").forward(request, response); //forward to jsp
     }
 }

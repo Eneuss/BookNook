@@ -27,6 +27,6 @@ public class AddCategoryServlet extends HttpServlet {
             e.printStackTrace();
         }
 
-        response.sendRedirect("ManageCategoriesServlet"); // ✅ Refresh category list
+        response.sendRedirect("ManageCategoriesServlet"); //refresh category list
     }
 }

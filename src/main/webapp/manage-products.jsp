@@ -28,7 +28,6 @@
 
     <h2>Manage Books & Accessories</h2>
 
-    <!-- ✅ Navigation buttons at the top -->
     <div class="nav-container">
         <a href="admin-dashboard.jsp" class="nav-button dashboard-button">Return to Dashboard</a>
         <a href="add-product.jsp" class="nav-button add-product-button">Add New Product</a>

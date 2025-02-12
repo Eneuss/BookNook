@@ -30,7 +30,7 @@
     <h2>User Dashboard</h2>
 
     <a href="SearchServlet" class="nav-button">Browse Books & Accessories</a>
-    <a href="CheckoutServlet" class="nav-button">View Cart</a>
+    <a href="cart.jsp" class="nav-button">View Cart</a>
     <a href="OrderHistoryServlet" class="nav-button">Order History</a>
     <a href="LogoutServlet" class="nav-button">Logout</a>
 

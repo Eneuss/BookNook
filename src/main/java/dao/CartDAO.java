@@ -14,7 +14,7 @@ import java.util.List;
 
 public class CartDAO {
 
-    // ✅ Add an item to the cart
+    //add an item to the cart
     public void addToCart(int userId, int itemId, String itemType, int quantity) throws SQLException {
         String sql = "INSERT INTO Cart (user_id, item_type, item_id, quantity) VALUES (?, ?, ?, ?)";
         try (Connection conn = DatabaseConnection.getConnection();
@@ -27,7 +27,7 @@ public class CartDAO {
         }
     }
 
-    // ✅ Retrieve all cart items for a user
+    //retrieve all cart items for a user
     public List<Cart> getCartItems(int userId) throws SQLException {
         List<Cart> cartItems = new ArrayList<>();
         String sql = "SELECT id, user_id, item_type, item_id, quantity FROM Cart WHERE user_id = ?";
@@ -50,7 +50,7 @@ public class CartDAO {
         return cartItems;
     }
 
-    // ✅ Remove an item from the cart
+    //remove an item from the cart
     public void removeFromCart(int cartId) throws SQLException {
         String sql = "DELETE FROM Cart WHERE id = ?";
         try (Connection conn = DatabaseConnection.getConnection();
@@ -60,7 +60,7 @@ public class CartDAO {
         }
     }
 
-    // ✅ Clear all cart items for a user after checkout
+    //clear all cart items after checkout
     public void clearCart(int userId) throws SQLException {
         String sql = "DELETE FROM Cart WHERE user_id = ?";
         try (Connection conn = DatabaseConnection.getConnection();
@@ -70,15 +70,15 @@ public class CartDAO {
         }
     }
     
-    // ✅ Calculate the total cart price for a user
+    //calculate the total cart price
     public double calculateTotalCartPrice(int userId) throws SQLException {
         double totalPrice = 0;
 
-        // ✅ Calculate total price for books
+        //calculate total price for books
         String bookQuery = "SELECT SUM(c.quantity * b.price) AS total FROM Cart c " +
                            "JOIN Books b ON c.item_id = b.id WHERE c.user_id = ? AND c.item_type = 'book'";
 
-        // ✅ Calculate total price for accessories
+        //calculate total price for accessories
         String accessoryQuery = "SELECT SUM(c.quantity * a.price) AS total FROM Cart c " +
                                 "JOIN Accessories a ON c.item_id = a.id WHERE c.user_id = ? AND c.item_type = 'accessory'";
 
@@ -89,14 +89,14 @@ public class CartDAO {
             bookStmt.setInt(1, userId);
             accessoryStmt.setInt(1, userId);
 
-            // ✅ Sum book prices
+            //sum book prices
             try (ResultSet rs = bookStmt.executeQuery()) {
                 if (rs.next()) {
                     totalPrice += rs.getDouble("total");
                 }
             }
 
-            // ✅ Sum accessory prices
+            //sum accessory prices
             try (ResultSet rs = accessoryStmt.executeQuery()) {
                 if (rs.next()) {
                     totalPrice += rs.getDouble("total");
@@ -108,7 +108,7 @@ public class CartDAO {
     
     
     
-    //add item to cart or update quantity if already exists
+    //add item to cart or update quantity if already present
     public void addOrUpdateCartItem(int userId, int itemId, String itemType, double price) throws SQLException {
         String checkSql = "SELECT quantity FROM Cart WHERE user_id = ? AND item_id = ? AND item_type = ?";
         String updateSql = "UPDATE Cart SET quantity = quantity + 1 WHERE user_id = ? AND item_id = ? AND item_type = ?";
