@@ -9,7 +9,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DatabaseConnection {
-    private static final String URL = "jdbc:sqlite:C:/Users/Admin/Desktop/prov.db";  
+    private static final String URL = "jdbc:sqlite:C:/Users/Admin/Documents/NetBeansProjects/IndividualBookNook/BookNook.db";  
 
     public static Connection getConnection() throws SQLException {
         try {
