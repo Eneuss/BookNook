@@ -23,8 +23,8 @@ public class TestCheckoutFlow extends DatabaseTest {
 
     @Test
     public void addingSameItemTwiceIncreasesQuantity() throws SQLException {
-        cartDAO.addOrUpdateCartItem(USER_ID, 3, "book", 8.75);
-        cartDAO.addOrUpdateCartItem(USER_ID, 3, "book", 8.75);
+        cartDAO.addOrUpdateCartItem(USER_ID, 3, "book");
+        cartDAO.addOrUpdateCartItem(USER_ID, 3, "book");
 
         assertEquals(1, cartDAO.getCartItems(USER_ID).size());
         assertEquals(2, cartDAO.getCartItems(USER_ID).get(0).getQuantity());
@@ -32,17 +32,17 @@ public class TestCheckoutFlow extends DatabaseTest {
 
     @Test
     public void cartTotalSumsBooksAndAccessories() throws SQLException {
-        cartDAO.addOrUpdateCartItem(USER_ID, 3, "book", 8.75);
-        cartDAO.addOrUpdateCartItem(USER_ID, 3, "book", 8.75);
-        cartDAO.addOrUpdateCartItem(USER_ID, 1, "accessory", 2.99);
+        cartDAO.addOrUpdateCartItem(USER_ID, 3, "book");
+        cartDAO.addOrUpdateCartItem(USER_ID, 3, "book");
+        cartDAO.addOrUpdateCartItem(USER_ID, 1, "accessory");
 
         assertEquals(20.49, cartDAO.calculateTotalCartPrice(USER_ID), 0.001);
     }
 
     @Test
     public void removeFromCartDeletesOnlyThatLine() throws SQLException {
-        cartDAO.addOrUpdateCartItem(USER_ID, 1, "book", 10.99);
-        cartDAO.addOrUpdateCartItem(USER_ID, 2, "accessory", 14.99);
+        cartDAO.addOrUpdateCartItem(USER_ID, 1, "book");
+        cartDAO.addOrUpdateCartItem(USER_ID, 2, "accessory");
         int firstId = cartDAO.getCartItems(USER_ID).get(0).getId();
 
         cartDAO.removeFromCart(firstId);
@@ -52,9 +52,9 @@ public class TestCheckoutFlow extends DatabaseTest {
 
     @Test
     public void checkoutCreatesOrderUpdatesStockAndClearsCart() throws SQLException {
-        cartDAO.addOrUpdateCartItem(USER_ID, 3, "book", 8.75);
-        cartDAO.addOrUpdateCartItem(USER_ID, 3, "book", 8.75);
-        cartDAO.addOrUpdateCartItem(USER_ID, 1, "accessory", 2.99);
+        cartDAO.addOrUpdateCartItem(USER_ID, 3, "book");
+        cartDAO.addOrUpdateCartItem(USER_ID, 3, "book");
+        cartDAO.addOrUpdateCartItem(USER_ID, 1, "accessory");
 
         double total = cartDAO.calculateTotalCartPrice(USER_ID);
         int orderId = orderDAO.createOrder(USER_ID, total);
@@ -81,7 +81,7 @@ public class TestCheckoutFlow extends DatabaseTest {
 
     @Test
     public void orderKeepsPriceAtPurchaseAfterPriceChange() throws SQLException {
-        cartDAO.addOrUpdateCartItem(USER_ID, 1, "book", 10.99);
+        cartDAO.addOrUpdateCartItem(USER_ID, 1, "book");
         int orderId = orderDAO.createOrder(USER_ID, cartDAO.calculateTotalCartPrice(USER_ID));
         orderDAO.saveOrderItems(USER_ID, orderId);
 

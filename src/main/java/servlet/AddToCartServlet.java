@@ -31,13 +31,9 @@ public class AddToCartServlet extends HttpServlet {
         try {
             int itemId = Integer.parseInt(request.getParameter("productId"));
             String itemType = request.getParameter("productType");
-            double price = Double.parseDouble(request.getParameter("productPrice"));
 
             //add item to the cart or update quantity
-            cartDAO.addOrUpdateCartItem(userId, itemId, itemType, price);
-
-            //store a confirmation message in session
-            session.setAttribute("cartMessage", "Product added to cart successfully!");
+            cartDAO.addOrUpdateCartItem(userId, itemId, itemType);
 
             //redirect back to `search.jsp`
             response.sendRedirect("search.jsp");

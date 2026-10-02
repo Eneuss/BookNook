@@ -35,20 +35,6 @@ public class CategoryDAO {
         }
         return null; //return null if category is not found
     }
-
-    public List<String> getAllCategories() throws SQLException {
-        List<String> categories = new ArrayList<>();
-        String sql = "SELECT name FROM Categories";
-
-        try (Connection conn = DatabaseConnection.getConnection();
-             Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery(sql)) {
-            while (rs.next()) {
-                categories.add(rs.getString("name"));
-            }
-        }
-        return categories;
-    }
     
     //get all categories with ID for mapping in search.jsp
     public List<Category> getAllCategoriesWithId() throws SQLException {

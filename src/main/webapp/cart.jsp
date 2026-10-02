@@ -29,7 +29,6 @@
             try {
                 CartDAO cartDAO = new CartDAO();
                 cartItems = cartDAO.getCartItems(userId);
-                session.setAttribute("cart", cartItems);
             } catch (SQLException e) {
                 e.printStackTrace();
             }

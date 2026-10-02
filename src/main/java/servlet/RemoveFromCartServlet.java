@@ -31,8 +31,6 @@ public class RemoveFromCartServlet extends HttpServlet {
         try {
             int cartItemId = Integer.parseInt(request.getParameter("id"));
             cartDAO.removeFromCart(cartItemId);
-            
-            session.setAttribute("cart", cartDAO.getCartItems(userId));
 
             response.sendRedirect("cart.jsp");
 

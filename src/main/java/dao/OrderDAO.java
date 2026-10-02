@@ -6,16 +6,12 @@ package dao;
 
 import entity.Order;
 import entity.OrderItem;
-import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 public class OrderDAO {
 
@@ -104,7 +100,7 @@ public class OrderDAO {
                     String orderDate = rs.getString("order_date");
                     double totalPrice = rs.getDouble("total_price");
                     
-                    // ✅ Fetch books & accessories for this order
+                    //fetch books & accessories for this order
                     List<OrderItem> items = getOrderItems(orderId, conn);
 
                     orders.add(new Order(orderId, userId, orderDate, totalPrice, items));
@@ -139,16 +135,6 @@ public class OrderDAO {
         }
         return items;
     }
-    
-    //used in TestOrderDAO
-    public void deleteOrder(int orderId) throws SQLException {
-    String sql = "DELETE FROM Orders WHERE id = ?";
-    try (Connection conn = DatabaseConnection.getConnection();
-         PreparedStatement stmt = conn.prepareStatement(sql)) {
-        stmt.setInt(1, orderId);
-        stmt.executeUpdate();
-    }
-}
     
 }
 

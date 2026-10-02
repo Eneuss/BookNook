@@ -14,19 +14,6 @@ import java.util.List;
 
 public class CartDAO {
 
-    //add an item to the cart
-    public void addToCart(int userId, int itemId, String itemType, int quantity) throws SQLException {
-        String sql = "INSERT INTO Cart (user_id, item_type, item_id, quantity) VALUES (?, ?, ?, ?)";
-        try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setInt(1, userId);
-            stmt.setString(2, itemType);
-            stmt.setInt(3, itemId);
-            stmt.setInt(4, quantity);
-            stmt.executeUpdate();
-        }
-    }
-
     //retrieve all cart items for a user
     public List<Cart> getCartItems(int userId) throws SQLException {
         List<Cart> cartItems = new ArrayList<>();
@@ -109,7 +96,7 @@ public class CartDAO {
     
     
     //add item to cart or update quantity if already present
-    public void addOrUpdateCartItem(int userId, int itemId, String itemType, double price) throws SQLException {
+    public void addOrUpdateCartItem(int userId, int itemId, String itemType) throws SQLException {
         String checkSql = "SELECT quantity FROM Cart WHERE user_id = ? AND item_id = ? AND item_type = ?";
         String updateSql = "UPDATE Cart SET quantity = quantity + 1 WHERE user_id = ? AND item_id = ? AND item_type = ?";
         String insertSql = "INSERT INTO Cart (user_id, item_type, item_id, quantity) VALUES (?, ?, ?, 1)";

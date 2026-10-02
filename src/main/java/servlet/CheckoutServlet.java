@@ -22,9 +22,9 @@ public class CheckoutServlet extends HttpServlet {
     private final CartDAO cartDAO = new CartDAO();
     private final OrderDAO orderDAO = new OrderDAO();
 
-    //redirect to a checkout confirmation page
+    //checkout only happens via POST from the cart page
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        response.sendRedirect("checkout-confirmation.jsp");
+        response.sendRedirect("cart.jsp");
     }
 
     //handle POST requests process checkout
@@ -50,10 +50,6 @@ public class CheckoutServlet extends HttpServlet {
 
             //clear the cart after checkout
             cartDAO.clearCart(userId);
-            session.removeAttribute("cart");
-
-            //ensure order history integration works correctly
-            session.setAttribute("lastOrderId", orderId); //store last order ID for confirmation
 
             //redirect to confirmation page
             response.sendRedirect("order-confirmation.jsp");

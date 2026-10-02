@@ -127,34 +127,4 @@ public class UserDAO {
         }
         return null; //return null if user is not found
     }
-
-    //retrieve all users (for admin)
-    public List<User> getAllUsers() throws SQLException {
-        List<User> users = new ArrayList<>();
-        String sql = "SELECT * FROM Users";
-        try (Connection conn = DatabaseConnection.getConnection();
-             Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery(sql)) {
-            while (rs.next()) {
-                users.add(new User(
-                        rs.getInt("id"),
-                        rs.getString("username"),
-                        rs.getString("email"),
-                        rs.getString("password"),
-                        rs.getString("role")
-                ));
-            }
-        }
-        return users;
-    }
-    
-    //Used in TestUserDAO
-    public void deleteUserByEmail(String email) throws SQLException {
-    String sql = "DELETE FROM Users WHERE email = ?";
-    try (Connection conn = DatabaseConnection.getConnection();
-         PreparedStatement stmt = conn.prepareStatement(sql)) {
-        stmt.setString(1, email);
-        stmt.executeUpdate();
-    }
-}
 }

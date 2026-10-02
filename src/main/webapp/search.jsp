@@ -71,7 +71,6 @@
                         <form action="AddToCartServlet" method="POST">
                             <input type="hidden" name="productType" value="book">
                             <input type="hidden" name="productId" value="<%= book.getId() %>">
-                            <input type="hidden" name="productPrice" value="<%= book.getPrice() %>">
                             <button type="submit">Add to Cart</button>
                         </form>
                     <% } %>
@@ -100,7 +99,6 @@
                         <form action="AddToCartServlet" method="POST">
                             <input type="hidden" name="productType" value="accessory">
                             <input type="hidden" name="productId" value="<%= accessory.getId() %>">
-                            <input type="hidden" name="productPrice" value="<%= accessory.getPrice() %>">
                             <button type="submit">Add to Cart</button>
                         </form>
                     <% } %>
@@ -113,7 +111,7 @@
     <% } %>
 
     <% if (showCartOptions) { %>
-        <!-- ✅ Show "View Cart" only for regular users -->
+        <!-- show "View Cart" only for regular users -->
         <br>
         <a href="cart.jsp">View Cart</a>
     <% } %>

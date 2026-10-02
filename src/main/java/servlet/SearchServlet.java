@@ -32,27 +32,19 @@ public class SearchServlet extends HttpServlet {
         CategoryDAO categoryDAO = new CategoryDAO();
 
         try {
-            //fetch all books, accessories, and categories
-            List<Book> books = bookDAO.getAllBooks();
-            List<Accessory> accessories = accessoryDAO.getAllAccessories();
+            //fetch books and accessories, filtered by the search query if one is given
+            String searchQuery = request.getParameter("searchQuery");
+            boolean hasQuery = searchQuery != null && !searchQuery.trim().isEmpty();
+            List<Book> books = hasQuery ? bookDAO.searchBooks(searchQuery.trim()) : bookDAO.getAllBooks();
+            List<Accessory> accessories = hasQuery
+                    ? accessoryDAO.searchAccessories(searchQuery.trim())
+                    : accessoryDAO.getAllAccessories();
             List<Category> categories = categoryDAO.getAllCategoriesWithId();
 
             //HashMap to store categoryId into categoryName mapping
             HashMap<Integer, String> categoryMap = new HashMap<>();
             for (Category category : categories) {
                 categoryMap.put(category.getId(), category.getName());
-            }
-
-            //get search query safely
-            String searchQuery = request.getParameter("searchQuery");
-            if (searchQuery != null && !searchQuery.trim().isEmpty()) {
-                final String searchLower = searchQuery.trim().toLowerCase(); //declare final variable
-
-                //ensure books and accessories are filtered properly
-                books.removeIf(book -> !(book.getTitle().toLowerCase().contains(searchLower) ||
-                                         book.getAuthor().toLowerCase().contains(searchLower)));
-
-                accessories.removeIf(accessory -> !accessory.getName().toLowerCase().contains(searchLower));
             }
 
             //use session attributes instead of request attributes
