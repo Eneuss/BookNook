@@ -2,21 +2,22 @@ package com.booknook.servlet;
 
 import com.booknook.dao.UserDAO;
 import com.booknook.entity.User;
-import java.io.IOException;
-import java.sql.SQLException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.io.IOException;
+import java.sql.SQLException;
 
 @WebServlet("/LoginServlet")
 public class LoginServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
     private final UserDAO userDAO = new UserDAO();
 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
 
@@ -24,13 +25,13 @@ public class LoginServlet extends HttpServlet {
             User user = userDAO.authenticateUser(username, password);
             if (user != null) {
                 HttpSession session = request.getSession(true);
-                request.changeSessionId(); //prevent session fixation
+                request.changeSessionId(); // prevent session fixation
 
                 session.setAttribute("userId", user.getId());
                 session.setAttribute("username", user.getUsername());
                 session.setAttribute("role", user.getRole());
 
-                //redirect to correct dashboard
+                // redirect to correct dashboard
                 if ("admin".equals(user.getRole())) {
                     response.sendRedirect("admin-dashboard.jsp");
                 } else {
@@ -46,4 +47,3 @@ public class LoginServlet extends HttpServlet {
         request.getRequestDispatcher("login.jsp").forward(request, response);
     }
 }
-

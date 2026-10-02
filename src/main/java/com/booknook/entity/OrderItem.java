@@ -14,8 +14,19 @@ public class OrderItem {
     }
 
     // Getters
-    public String getType() { return type; }
-    public String getName() { return name; }
-    public int getQuantity() { return quantity; }
-    public double getPriceAtPurchase() { return priceAtPurchase; }
+    public String getType() {
+        return type;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public double getPriceAtPurchase() {
+        return priceAtPurchase;
+    }
 }

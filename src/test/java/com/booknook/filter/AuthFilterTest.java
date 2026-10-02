@@ -1,5 +1,7 @@
 package com.booknook.filter;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 import com.booknook.filter.AuthFilter.Access;
 import jakarta.servlet.annotation.WebServlet;
 import java.io.IOException;
@@ -12,8 +14,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 public class AuthFilterTest {
 
@@ -38,12 +38,13 @@ public class AuthFilterTest {
         assertEquals(Access.ALLOW, AuthFilter.check("/login.jsp", null));
     }
 
-    //fails when a new servlet or JSP is added without deciding who may access it
+    // fails when a new servlet or JSP is added without deciding who may access it
     @Test
     public void everyServletAndPageIsClassified() throws IOException, URISyntaxException, ClassNotFoundException {
         List<String> routes = new ArrayList<>();
 
-        Path servletDir = Paths.get(AuthFilter.class.getResource("/com/booknook/servlet").toURI());
+        Path servletDir =
+                Paths.get(AuthFilter.class.getResource("/com/booknook/servlet").toURI());
         try (Stream<Path> files = Files.list(servletDir)) {
             for (Path file : files.collect(Collectors.toList())) {
                 String name = file.getFileName().toString();
@@ -57,7 +58,9 @@ public class AuthFilterTest {
             }
         }
         try (Stream<Path> files = Files.list(Paths.get("src/main/webapp"))) {
-            files.map(f -> "/" + f.getFileName()).filter(f -> f.endsWith(".jsp")).forEach(routes::add);
+            files.map(f -> "/" + f.getFileName())
+                    .filter(f -> f.endsWith(".jsp"))
+                    .forEach(routes::add);
         }
 
         assertTrue(routes.size() > 30, "expected to discover all servlets and JSPs");

@@ -2,16 +2,16 @@ package com.booknook.servlet;
 
 import com.booknook.dao.CategoryDAO;
 import com.booknook.entity.Category;
-import java.io.IOException;
-import java.sql.SQLException;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.sql.SQLException;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @WebServlet("/ManageCategoriesServlet")
 public class ManageCategoriesServlet extends HttpServlet {
@@ -19,7 +19,8 @@ public class ManageCategoriesServlet extends HttpServlet {
     private static final Logger LOG = Logger.getLogger(ManageCategoriesServlet.class.getName());
     private final CategoryDAO categoryDAO = new CategoryDAO();
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         try {
             List<Category> categories = categoryDAO.getAllCategoriesWithId();
             request.setAttribute("categories", categories);

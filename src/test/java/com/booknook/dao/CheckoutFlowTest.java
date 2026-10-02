@@ -1,16 +1,15 @@
 package com.booknook.dao;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 import com.booknook.entity.Order;
 import com.booknook.entity.OrderItem;
-import java.sql.SQLException;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-//covers the cart -> order -> stock -> order history flow used by CheckoutServlet
+// covers the cart -> order -> stock -> order history flow used by CheckoutServlet
 public class CheckoutFlowTest extends DatabaseTest {
-    private static final int USER_ID = 2; //johnDoe in seed.sql
+    private static final int USER_ID = 2; // johnDoe in seed.sql
 
     private final CartDAO cartDAO = new CartDAO();
     private final OrderDAO orderDAO = new OrderDAO();
@@ -75,7 +74,10 @@ public class CheckoutFlowTest extends DatabaseTest {
 
         List<OrderItem> items = orders.get(0).getItems();
         assertEquals(2, items.size());
-        OrderItem book = items.stream().filter(i -> "book".equals(i.getType())).findFirst().orElseThrow();
+        OrderItem book = items.stream()
+                .filter(i -> "book".equals(i.getType()))
+                .findFirst()
+                .orElseThrow();
         assertEquals("1984", book.getName());
         assertEquals(2, book.getQuantity());
         assertEquals(8.75, book.getPriceAtPurchase(), 0.001);
@@ -94,9 +96,9 @@ public class CheckoutFlowTest extends DatabaseTest {
 
     @Test
     public void checkoutFailsAndChangesNothingWhenStockIsTooLow() throws Exception {
-        cartDAO.addOrUpdateCartItem(USER_ID, 1, "accessory"); //plenty of stock
+        cartDAO.addOrUpdateCartItem(USER_ID, 1, "accessory"); // plenty of stock
         for (int i = 0; i < 5; i++) {
-            cartDAO.addOrUpdateCartItem(USER_ID, 1, "book"); //only 4 in stock
+            cartDAO.addOrUpdateCartItem(USER_ID, 1, "book"); // only 4 in stock
         }
 
         CheckoutException e = assertThrows(CheckoutException.class, () -> orderDAO.checkout(USER_ID));

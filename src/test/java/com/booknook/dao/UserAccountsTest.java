@@ -1,13 +1,13 @@
 package com.booknook.dao;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 import com.booknook.entity.User;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 public class UserAccountsTest extends DatabaseTest {
     private final UserDAO userDAO = new UserDAO();
@@ -52,8 +52,8 @@ public class UserAccountsTest extends DatabaseTest {
         userDAO.registerUser(new User("bob", "bob@example.com", "secret2", "user"));
 
         try (Connection conn = DatabaseConnection.getConnection();
-             Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery("SELECT password FROM Users WHERE username = 'bob'")) {
+                Statement stmt = conn.createStatement();
+                ResultSet rs = stmt.executeQuery("SELECT password FROM Users WHERE username = 'bob'")) {
             assertTrue(rs.next());
             assertTrue(rs.getString("password").startsWith("$2a$"));
         }

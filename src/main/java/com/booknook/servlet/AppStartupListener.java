@@ -8,7 +8,7 @@ import jakarta.servlet.annotation.WebListener;
 import java.sql.SQLException;
 import java.util.logging.Logger;
 
-//creates and seeds the database on first start
+// creates and seeds the database on first start
 @WebListener
 public class AppStartupListener implements ServletContextListener {
     private static final Logger LOG = Logger.getLogger(AppStartupListener.class.getName());

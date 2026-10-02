@@ -16,10 +16,9 @@ import java.sql.Statement;
  */
 public final class DatabaseInitializer {
 
-    private DatabaseInitializer() {
-    }
+    private DatabaseInitializer() {}
 
-    //create and seed the database if it has no tables yet
+    // create and seed the database if it has no tables yet
     public static void initialize() throws SQLException {
         createParentDirectory();
         try (Connection conn = DatabaseConnection.getConnection()) {
@@ -39,7 +38,8 @@ public final class DatabaseInitializer {
     }
 
     private static void createParentDirectory() throws SQLException {
-        Path parent = Paths.get(DatabaseConnection.getDatabasePath()).toAbsolutePath().getParent();
+        Path parent =
+                Paths.get(DatabaseConnection.getDatabasePath()).toAbsolutePath().getParent();
         try {
             if (parent != null) {
                 Files.createDirectories(parent);
@@ -51,8 +51,8 @@ public final class DatabaseInitializer {
 
     private static boolean isInitialized(Connection conn) throws SQLException {
         try (Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery(
-                     "SELECT name FROM sqlite_master WHERE type = 'table' AND name = 'Users'")) {
+                ResultSet rs =
+                        stmt.executeQuery("SELECT name FROM sqlite_master WHERE type = 'table' AND name = 'Users'")) {
             return rs.next();
         }
     }
@@ -68,7 +68,7 @@ public final class DatabaseInitializer {
             throw new SQLException("Cannot read " + resource, e);
         }
 
-        //drop comment lines, then run each statement
+        // drop comment lines, then run each statement
         StringBuilder sql = new StringBuilder();
         for (String line : script.split("\n")) {
             if (!line.trim().startsWith("--")) {

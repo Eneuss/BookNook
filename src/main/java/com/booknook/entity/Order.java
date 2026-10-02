@@ -7,7 +7,7 @@ public class Order {
     private int userId;
     private String orderDate;
     private double totalPrice;
-    private List<OrderItem> items; //added for order history display
+    private List<OrderItem> items; // added for order history display
 
     public Order(int id, int userId, String orderDate, double totalPrice, List<OrderItem> items) {
         this.id = id;
@@ -18,9 +18,23 @@ public class Order {
     }
 
     // Getters
-    public int getId() { return id; }
-    public int getUserId() { return userId; }
-    public String getOrderDate() { return orderDate; }
-    public double getTotalPrice() { return totalPrice; }
-    public List<OrderItem> getItems() { return items; }
+    public int getId() {
+        return id;
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public String getOrderDate() {
+        return orderDate;
+    }
+
+    public double getTotalPrice() {
+        return totalPrice;
+    }
+
+    public List<OrderItem> getItems() {
+        return items;
+    }
 }

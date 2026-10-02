@@ -25,7 +25,8 @@ public class DatabaseConnection {
             path = System.getenv(DB_PATH_ENV);
         }
         if (path == null || path.isBlank()) {
-            path = Paths.get(System.getProperty("user.home"), ".booknook", "booknook.db").toString();
+            path = Paths.get(System.getProperty("user.home"), ".booknook", "booknook.db")
+                    .toString();
         }
         return path;
     }

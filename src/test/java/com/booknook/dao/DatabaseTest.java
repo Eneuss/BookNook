@@ -6,7 +6,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.io.TempDir;
 
-//gives every test a fresh database created from schema.sql and seed.sql
+// gives every test a fresh database created from schema.sql and seed.sql
 public abstract class DatabaseTest {
 
     @TempDir
@@ -14,7 +14,8 @@ public abstract class DatabaseTest {
 
     @BeforeEach
     void createDatabase() throws SQLException {
-        System.setProperty(DatabaseConnection.DB_PATH_PROPERTY, tempDir.resolve("test.db").toString());
+        System.setProperty(
+                DatabaseConnection.DB_PATH_PROPERTY, tempDir.resolve("test.db").toString());
         DatabaseInitializer.initialize();
     }
 

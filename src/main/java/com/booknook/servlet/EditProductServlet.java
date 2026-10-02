@@ -1,16 +1,16 @@
 package com.booknook.servlet;
 
-import com.booknook.dao.BookDAO;
 import com.booknook.dao.AccessoryDAO;
-import java.io.IOException;
-import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import com.booknook.dao.BookDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @WebServlet("/EditProductServlet")
 public class EditProductServlet extends HttpServlet {
@@ -19,7 +19,8 @@ public class EditProductServlet extends HttpServlet {
     private final BookDAO bookDAO = new BookDAO();
     private final AccessoryDAO accessoryDAO = new AccessoryDAO();
 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         try {
             int productId = Integer.parseInt(request.getParameter("id"));
             String productType = request.getParameter("productType");
@@ -35,11 +36,11 @@ public class EditProductServlet extends HttpServlet {
                 accessoryDAO.updateAccessory(productId, productName, price, stock);
             }
 
-            response.sendRedirect("ManageProductsServlet"); //refresh product list
+            response.sendRedirect("ManageProductsServlet"); // refresh product list
 
         } catch (SQLException | NumberFormatException e) {
             LOG.log(Level.WARNING, "Could not update product", e);
-            response.sendRedirect("ManageProductsServlet"); //redirect in case of error
+            response.sendRedirect("ManageProductsServlet"); // redirect in case of error
         }
     }
 }
