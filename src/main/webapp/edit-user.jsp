@@ -27,7 +27,7 @@
                 UserDAO userDAO = new UserDAO();
                 user = userDAO.getUserById(userId);
             } catch (SQLException | NumberFormatException e) {
-                e.printStackTrace();
+                application.log("Could not load user", e);
             }
         }
 

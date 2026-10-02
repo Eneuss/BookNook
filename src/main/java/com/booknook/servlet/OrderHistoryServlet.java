@@ -5,6 +5,8 @@ import com.booknook.entity.Order;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -15,6 +17,7 @@ import jakarta.servlet.http.HttpServletRequest;
 @WebServlet("/OrderHistoryServlet")
 public class OrderHistoryServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
+    private static final Logger LOG = Logger.getLogger(OrderHistoryServlet.class.getName());
     private final OrderDAO orderDAO = new OrderDAO();
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -34,7 +37,7 @@ public class OrderHistoryServlet extends HttpServlet {
 
             response.sendRedirect("order-history.jsp"); //redirect instead of forwarding
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOG.log(Level.WARNING, "Could not load order history", e);
             response.sendRedirect("user-dashboard.jsp");
         }
     }

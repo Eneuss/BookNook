@@ -37,7 +37,7 @@
                     accessory = accessoryDAO.getAccessoryById(productId);
                 }
             } catch (SQLException | NumberFormatException e) {
-                e.printStackTrace();
+                application.log("Could not load product", e);
             }
         }
 

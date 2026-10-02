@@ -3,6 +3,8 @@ package com.booknook.servlet;
 import com.booknook.dao.CartDAO;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -13,6 +15,7 @@ import jakarta.servlet.http.HttpSession;
 @WebServlet("/AddToCartServlet")
 public class AddToCartServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
+    private static final Logger LOG = Logger.getLogger(AddToCartServlet.class.getName());
     private final CartDAO cartDAO = new CartDAO();
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -35,7 +38,7 @@ public class AddToCartServlet extends HttpServlet {
             response.sendRedirect("search.jsp");
 
         } catch (SQLException | NumberFormatException e) {
-            e.printStackTrace();
+            LOG.log(Level.WARNING, "Could not add item to cart", e);
             response.sendRedirect("search.jsp"); //redirect back to product search in case of error
         }
     }

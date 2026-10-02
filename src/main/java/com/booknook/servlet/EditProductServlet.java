@@ -4,6 +4,8 @@ import com.booknook.dao.BookDAO;
 import com.booknook.dao.AccessoryDAO;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -13,6 +15,7 @@ import jakarta.servlet.http.HttpServletResponse;
 @WebServlet("/EditProductServlet")
 public class EditProductServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
+    private static final Logger LOG = Logger.getLogger(EditProductServlet.class.getName());
     private final BookDAO bookDAO = new BookDAO();
     private final AccessoryDAO accessoryDAO = new AccessoryDAO();
 
@@ -35,7 +38,7 @@ public class EditProductServlet extends HttpServlet {
             response.sendRedirect("ManageProductsServlet"); //refresh product list
 
         } catch (SQLException | NumberFormatException e) {
-            e.printStackTrace();
+            LOG.log(Level.WARNING, "Could not update product", e);
             response.sendRedirect("ManageProductsServlet"); //redirect in case of error
         }
     }

@@ -26,7 +26,7 @@
                 CategoryDAO categoryDAO = new CategoryDAO();
                 category = categoryDAO.getCategoryById(categoryId);
             } catch (SQLException | NumberFormatException e) {
-                e.printStackTrace();
+                application.log("Could not load category", e);
             }
         }
 

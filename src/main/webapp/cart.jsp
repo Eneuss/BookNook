@@ -30,7 +30,7 @@
                 CartDAO cartDAO = new CartDAO();
                 cartItems = cartDAO.getCartItems(userId);
             } catch (SQLException e) {
-                e.printStackTrace();
+                application.log("Could not load cart", e);
             }
         }
         

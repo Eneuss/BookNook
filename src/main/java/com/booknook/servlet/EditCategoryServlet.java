@@ -3,6 +3,8 @@ package com.booknook.servlet;
 import com.booknook.dao.CategoryDAO;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -12,6 +14,7 @@ import jakarta.servlet.http.HttpServletResponse;
 @WebServlet("/EditCategoryServlet")
 public class EditCategoryServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
+    private static final Logger LOG = Logger.getLogger(EditCategoryServlet.class.getName());
     private final CategoryDAO categoryDAO = new CategoryDAO();
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -23,7 +26,7 @@ public class EditCategoryServlet extends HttpServlet {
             response.sendRedirect("ManageCategoriesServlet"); //refresh category list
 
         } catch (SQLException | NumberFormatException e) {
-            e.printStackTrace();
+            LOG.log(Level.WARNING, "Could not update category", e);
             response.sendRedirect("ManageCategoriesServlet"); //redirect in case of error
         }
     }
