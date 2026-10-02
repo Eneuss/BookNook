@@ -65,7 +65,7 @@
 
     <profiles>
         <!-- Formatting check (palantir-java-format). The formatter needs JDK 17+, so it is
-             enabled automatically there and in CI; the code itself still targets Java 11. -->
+             enabled automatically there; the code itself still targets Java 11. -->
         <profile>
             <id>format</id>
             <activation>
