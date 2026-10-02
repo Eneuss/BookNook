@@ -1,0 +1,12 @@
+services:
+  booknook:
+    build: .
+    ports:
+      - "8080:8080"
+    environment:
+      BOOKNOOK_DB_PATH: ${BOOKNOOK_DB_PATH:-/data/booknook.db}
+    volumes:
+      - booknook-data:/data
+
+volumes:
+  booknook-data:
