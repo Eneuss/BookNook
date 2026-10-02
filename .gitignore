@@ -1,0 +1,22 @@
+# Build output
+target/
+
+# Local databases and environment
+*.db
+data/
+.env
+
+# IDE files
+nbactions.xml
+nb-configuration.xml
+nbproject/
+.idea/
+*.iml
+.vscode/
+.classpath
+.project
+.settings/
+
+# OS
+.DS_Store
+Thumbs.db
