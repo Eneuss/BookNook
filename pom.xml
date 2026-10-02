@@ -62,4 +62,41 @@
             </plugin>
         </plugins>
     </build>
+
+    <profiles>
+        <!-- Formatting check (palantir-java-format). The formatter needs JDK 17+, so it is
+             enabled automatically there and in CI; the code itself still targets Java 11. -->
+        <profile>
+            <id>format</id>
+            <activation>
+                <jdk>[17,)</jdk>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>com.diffplug.spotless</groupId>
+                        <artifactId>spotless-maven-plugin</artifactId>
+                        <version>2.44.4</version>
+                        <configuration>
+                            <java>
+                                <palantirJavaFormat>
+                                    <version>2.50.0</version>
+                                </palantirJavaFormat>
+                                <removeUnusedImports/>
+                                <importOrder/>
+                            </java>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>check</goal>
+                                </goals>
+                                <phase>verify</phase>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 </project>
