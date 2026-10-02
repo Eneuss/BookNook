@@ -26,6 +26,13 @@
 <body>
     <h2>Your Shopping Cart</h2>
     <%
+        String cartError = (String) session.getAttribute("cartError");
+        if (cartError != null) {
+            session.removeAttribute("cartError");
+    %>
+        <p style="color:red;"><%= Html.escape(cartError) %></p>
+    <% } %>
+    <%
         Integer userId = (Integer) session.getAttribute("userId");
         List<Cart> cartItems = null;
         if (userId != null) {

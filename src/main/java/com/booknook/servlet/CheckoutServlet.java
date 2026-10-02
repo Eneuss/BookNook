@@ -1,6 +1,6 @@
 package com.booknook.servlet;
 
-import com.booknook.dao.CartDAO;
+import com.booknook.dao.CheckoutException;
 import com.booknook.dao.OrderDAO;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -14,7 +14,6 @@ import jakarta.servlet.http.HttpSession;
 @WebServlet("/CheckoutServlet")
 public class CheckoutServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
-    private final CartDAO cartDAO = new CartDAO();
     private final OrderDAO orderDAO = new OrderDAO();
 
     //checkout only happens via POST from the cart page
@@ -33,22 +32,14 @@ public class CheckoutServlet extends HttpServlet {
         }
 
         try {
-            //Calculate total price and create an order
-            double totalAmount = cartDAO.calculateTotalCartPrice(userId);
-            int orderId = orderDAO.createOrder(userId, totalAmount);
-
-            //store ordered items in `Order_Books` and `Order_Accessories`
-            orderDAO.saveOrderItems(userId, orderId);
-
-            //update stock quantities
-            orderDAO.updateStockAfterPurchase(userId);
-
-            //clear the cart after checkout
-            cartDAO.clearCart(userId);
-
-            //redirect to confirmation page
+            //create the order, save its items, update stock and clear the cart in one transaction
+            orderDAO.checkout(userId);
             response.sendRedirect("order-confirmation.jsp");
 
+        } catch (CheckoutException e) {
+            //show the reason on the cart page; nothing was saved
+            session.setAttribute("cartError", e.getMessage());
+            response.sendRedirect("cart.jsp");
         } catch (SQLException e) {
             throw new ServletException("Error processing checkout", e);
         }

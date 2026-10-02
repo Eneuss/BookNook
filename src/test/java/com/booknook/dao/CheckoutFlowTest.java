@@ -18,7 +18,7 @@ public class CheckoutFlowTest extends DatabaseTest {
     private final AccessoryDAO accessoryDAO = new AccessoryDAO();
 
     @Test
-    public void addingSameItemTwiceIncreasesQuantity() throws SQLException {
+    public void addingSameItemTwiceIncreasesQuantity() throws Exception {
         cartDAO.addOrUpdateCartItem(USER_ID, 3, "book");
         cartDAO.addOrUpdateCartItem(USER_ID, 3, "book");
 
@@ -27,7 +27,7 @@ public class CheckoutFlowTest extends DatabaseTest {
     }
 
     @Test
-    public void cartTotalSumsBooksAndAccessories() throws SQLException {
+    public void cartTotalSumsBooksAndAccessories() throws Exception {
         cartDAO.addOrUpdateCartItem(USER_ID, 3, "book");
         cartDAO.addOrUpdateCartItem(USER_ID, 3, "book");
         cartDAO.addOrUpdateCartItem(USER_ID, 1, "accessory");
@@ -36,7 +36,7 @@ public class CheckoutFlowTest extends DatabaseTest {
     }
 
     @Test
-    public void removeFromCartDeletesOnlyThatLine() throws SQLException {
+    public void removeFromCartDeletesOnlyThatLine() throws Exception {
         cartDAO.addOrUpdateCartItem(USER_ID, 1, "book");
         cartDAO.addOrUpdateCartItem(USER_ID, 2, "accessory");
         int firstId = cartDAO.getCartItems(USER_ID).get(0).getId();
@@ -47,7 +47,7 @@ public class CheckoutFlowTest extends DatabaseTest {
     }
 
     @Test
-    public void cannotRemoveAnotherUsersCartItem() throws SQLException {
+    public void cannotRemoveAnotherUsersCartItem() throws Exception {
         cartDAO.addOrUpdateCartItem(USER_ID, 1, "book");
         int itemId = cartDAO.getCartItems(USER_ID).get(0).getId();
 
@@ -57,16 +57,12 @@ public class CheckoutFlowTest extends DatabaseTest {
     }
 
     @Test
-    public void checkoutCreatesOrderUpdatesStockAndClearsCart() throws SQLException {
+    public void checkoutCreatesOrderUpdatesStockAndClearsCart() throws Exception {
         cartDAO.addOrUpdateCartItem(USER_ID, 3, "book");
         cartDAO.addOrUpdateCartItem(USER_ID, 3, "book");
         cartDAO.addOrUpdateCartItem(USER_ID, 1, "accessory");
 
-        double total = cartDAO.calculateTotalCartPrice(USER_ID);
-        int orderId = orderDAO.createOrder(USER_ID, total);
-        orderDAO.saveOrderItems(USER_ID, orderId);
-        orderDAO.updateStockAfterPurchase(USER_ID);
-        cartDAO.clearCart(USER_ID);
+        int orderId = orderDAO.checkout(USER_ID);
 
         assertEquals(5, bookDAO.getBookById(3).getStock());
         assertEquals(45, accessoryDAO.getAccessoryById(1).getStock());
@@ -86,14 +82,34 @@ public class CheckoutFlowTest extends DatabaseTest {
     }
 
     @Test
-    public void orderKeepsPriceAtPurchaseAfterPriceChange() throws SQLException {
+    public void orderKeepsPriceAtPurchaseAfterPriceChange() throws Exception {
         cartDAO.addOrUpdateCartItem(USER_ID, 1, "book");
-        int orderId = orderDAO.createOrder(USER_ID, cartDAO.calculateTotalCartPrice(USER_ID));
-        orderDAO.saveOrderItems(USER_ID, orderId);
+        orderDAO.checkout(USER_ID);
 
         bookDAO.updateBook(1, "The Great Gatsby", "F. Scott Fitzgerald", 99.0, 4, 1);
 
         OrderItem item = orderDAO.getUserOrders(USER_ID).get(0).getItems().get(0);
         assertEquals(10.99, item.getPriceAtPurchase(), 0.001);
+    }
+
+    @Test
+    public void checkoutFailsAndChangesNothingWhenStockIsTooLow() throws Exception {
+        cartDAO.addOrUpdateCartItem(USER_ID, 1, "accessory"); //plenty of stock
+        for (int i = 0; i < 5; i++) {
+            cartDAO.addOrUpdateCartItem(USER_ID, 1, "book"); //only 4 in stock
+        }
+
+        CheckoutException e = assertThrows(CheckoutException.class, () -> orderDAO.checkout(USER_ID));
+        assertTrue(e.getMessage().contains("stock"));
+
+        assertTrue(orderDAO.getUserOrders(USER_ID).isEmpty(), "no order should be saved");
+        assertEquals(4, bookDAO.getBookById(1).getStock());
+        assertEquals(46, accessoryDAO.getAccessoryById(1).getStock(), "earlier stock updates are rolled back");
+        assertEquals(2, cartDAO.getCartItems(USER_ID).size(), "cart is kept");
+    }
+
+    @Test
+    public void checkoutWithEmptyCartIsRejected() {
+        assertThrows(CheckoutException.class, () -> orderDAO.checkout(USER_ID));
     }
 }

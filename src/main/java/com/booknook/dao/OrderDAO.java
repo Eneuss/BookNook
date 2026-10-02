@@ -1,5 +1,6 @@
 package com.booknook.dao;
 
+import com.booknook.entity.Cart;
 import com.booknook.entity.Order;
 import com.booknook.entity.OrderItem;
 import java.sql.Connection;
@@ -11,11 +12,42 @@ import java.util.List;
 
 public class OrderDAO {
 
+    private final CartDAO cartDAO = new CartDAO();
+
+    /**
+     * Turns the user's cart into an order in a single transaction: creates the order,
+     * copies the cart lines with their current prices, reduces stock and empties the cart.
+     * Nothing is saved if any step fails.
+     *
+     * @return the new order ID
+     * @throws CheckoutException if the cart is empty or an item does not have enough stock
+     */
+    public int checkout(int userId) throws SQLException, CheckoutException {
+        try (Connection conn = DatabaseConnection.getConnection()) {
+            conn.setAutoCommit(false);
+            try {
+                List<Cart> items = cartDAO.getCartItems(conn, userId);
+                if (items.isEmpty()) {
+                    throw new CheckoutException("Your cart is empty.");
+                }
+                double total = cartDAO.calculateTotalCartPrice(conn, userId);
+                int orderId = createOrder(conn, userId, total);
+                saveOrderItems(conn, userId, orderId);
+                reduceStock(conn, items);
+                cartDAO.clearCart(conn, userId);
+                conn.commit();
+                return orderId;
+            } catch (SQLException | CheckoutException | RuntimeException e) {
+                conn.rollback();
+                throw e;
+            }
+        }
+    }
+
     //create a new order and return the order ID
-    public int createOrder(int userId, double totalAmount) throws SQLException {
+    private int createOrder(Connection conn, int userId, double totalAmount) throws SQLException {
         String sql = "INSERT INTO Orders (user_id, total_price) VALUES (?, ?)";
-        try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {
+        try (PreparedStatement stmt = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {
             stmt.setInt(1, userId);
             stmt.setDouble(2, totalAmount);
             stmt.executeUpdate();
@@ -30,7 +62,7 @@ public class OrderDAO {
     }
 
     //save books and accessories in Order_Books and Order_Accessories
-     public void saveOrderItems(int userId, int orderId) throws SQLException {
+    private void saveOrderItems(Connection conn, int userId, int orderId) throws SQLException {
         String bookSql = "INSERT INTO Order_Books (order_id, book_id, quantity, price_at_purchase) " +
                          "SELECT ?, c.item_id, c.quantity, b.price FROM Cart c " +
                          "JOIN Books b ON c.item_id = b.id " +
@@ -41,14 +73,8 @@ public class OrderDAO {
                               "JOIN Accessories a ON c.item_id = a.id " +
                               "WHERE c.user_id = ? AND c.item_type = 'accessory'";
 
-        try (Connection conn = DatabaseConnection.getConnection()) {
-            try (PreparedStatement stmt = conn.prepareStatement(bookSql)) {
-                stmt.setInt(1, orderId);
-                stmt.setInt(2, userId);
-                stmt.executeUpdate();
-            }
-
-            try (PreparedStatement stmt = conn.prepareStatement(accessorySql)) {
+        for (String sql : new String[] {bookSql, accessorySql}) {
+            try (PreparedStatement stmt = conn.prepareStatement(sql)) {
                 stmt.setInt(1, orderId);
                 stmt.setInt(2, userId);
                 stmt.executeUpdate();
@@ -56,32 +82,24 @@ public class OrderDAO {
         }
     }
 
-    //update stock quantities after purchase
-    public void updateStockAfterPurchase(int userId) throws SQLException {
-        String bookStockSql = "UPDATE Books SET stock = stock - (SELECT quantity FROM Cart "
-                            + "WHERE user_id = ? AND item_type = 'book' AND Books.id = Cart.item_id) "
-                            + "WHERE id IN (SELECT item_id FROM Cart WHERE user_id = ? AND item_type = 'book')";
+    //reduce stock for each cart line, failing if any product has too little left
+    private void reduceStock(Connection conn, List<Cart> items) throws SQLException, CheckoutException {
+        String bookSql = "UPDATE Books SET stock = stock - ? WHERE id = ? AND stock >= ?";
+        String accessorySql = "UPDATE Accessories SET stock = stock - ? WHERE id = ? AND stock >= ?";
 
-        String accessoryStockSql = "UPDATE Accessories SET stock = stock - (SELECT quantity FROM Cart "
-                                 + "WHERE user_id = ? AND item_type = 'accessory' AND Accessories.id = Cart.item_id) "
-                                 + "WHERE id IN (SELECT item_id FROM Cart WHERE user_id = ? AND item_type = 'accessory')";
-
-        try (Connection conn = DatabaseConnection.getConnection()) {
-            try (PreparedStatement stmt = conn.prepareStatement(bookStockSql)) {
-                stmt.setInt(1, userId);
-                stmt.setInt(2, userId);
-                stmt.executeUpdate();
-            }
-
-            try (PreparedStatement stmt = conn.prepareStatement(accessoryStockSql)) {
-                stmt.setInt(1, userId);
-                stmt.setInt(2, userId);
-                stmt.executeUpdate();
+        for (Cart item : items) {
+            String sql = "book".equals(item.getItemType()) ? bookSql : accessorySql;
+            try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+                stmt.setInt(1, item.getQuantity());
+                stmt.setInt(2, item.getItemId());
+                stmt.setInt(3, item.getQuantity());
+                if (stmt.executeUpdate() == 0) {
+                    throw new CheckoutException("Not enough stock for one of the items in your cart.");
+                }
             }
         }
     }
-    
-    
+
     //retrieve all orders for a user
     public List<Order> getUserOrders(int userId) throws SQLException {
         List<Order> orders = new ArrayList<>();

@@ -12,11 +12,16 @@ public class CartDAO {
 
     //retrieve all cart items for a user
     public List<Cart> getCartItems(int userId) throws SQLException {
+        try (Connection conn = DatabaseConnection.getConnection()) {
+            return getCartItems(conn, userId);
+        }
+    }
+
+    List<Cart> getCartItems(Connection conn, int userId) throws SQLException {
         List<Cart> cartItems = new ArrayList<>();
         String sql = "SELECT id, user_id, item_type, item_id, quantity FROM Cart WHERE user_id = ?";
 
-        try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, userId);
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
@@ -45,10 +50,9 @@ public class CartDAO {
     }
 
     //clear all cart items after checkout
-    public void clearCart(int userId) throws SQLException {
+    void clearCart(Connection conn, int userId) throws SQLException {
         String sql = "DELETE FROM Cart WHERE user_id = ?";
-        try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, userId);
             stmt.executeUpdate();
         }
@@ -56,6 +60,12 @@ public class CartDAO {
     
     //calculate the total cart price
     public double calculateTotalCartPrice(int userId) throws SQLException {
+        try (Connection conn = DatabaseConnection.getConnection()) {
+            return calculateTotalCartPrice(conn, userId);
+        }
+    }
+
+    double calculateTotalCartPrice(Connection conn, int userId) throws SQLException {
         double totalPrice = 0;
 
         //calculate total price for books
@@ -66,8 +76,7 @@ public class CartDAO {
         String accessoryQuery = "SELECT SUM(c.quantity * a.price) AS total FROM Cart c " +
                                 "JOIN Accessories a ON c.item_id = a.id WHERE c.user_id = ? AND c.item_type = 'accessory'";
 
-        try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement bookStmt = conn.prepareStatement(bookQuery);
+        try (PreparedStatement bookStmt = conn.prepareStatement(bookQuery);
              PreparedStatement accessoryStmt = conn.prepareStatement(accessoryQuery)) {
 
             bookStmt.setInt(1, userId);
