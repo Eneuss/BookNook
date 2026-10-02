@@ -1,6 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ page pageEncoding="UTF-8" %>
-<%@ page import="java.util.List, entity.Order, entity.OrderItem, java.text.DecimalFormat" %>
+<%@ page import="java.util.List, com.booknook.entity.Order, com.booknook.entity.OrderItem, java.text.DecimalFormat" %>
 <!DOCTYPE html>
 <html>
 <head>

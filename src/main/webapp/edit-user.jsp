@@ -1,7 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ page pageEncoding="UTF-8" %>
-<%@ page import="entity.User" %>
-<%@ page import="dao.UserDAO" %>
+<%@ page import="com.booknook.entity.User" %>
+<%@ page import="com.booknook.dao.UserDAO" %>
 <%@ page import="java.sql.SQLException" %>
 <!DOCTYPE html>
 <html>

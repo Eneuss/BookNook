@@ -1,6 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ page pageEncoding="UTF-8" %>
-<%@ page import="java.util.List, entity.Cart, dao.CartDAO, dao.BookDAO, dao.AccessoryDAO, entity.Book, entity.Accessory" %>
+<%@ page import="java.util.List, com.booknook.entity.Cart, com.booknook.dao.CartDAO, com.booknook.dao.BookDAO, com.booknook.dao.AccessoryDAO, com.booknook.entity.Book, com.booknook.entity.Accessory" %>
 <%@ page import="java.sql.SQLException" %>
 <!DOCTYPE html>
 <html>
