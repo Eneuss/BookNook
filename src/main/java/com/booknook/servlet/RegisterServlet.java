@@ -18,7 +18,6 @@ public class RegisterServlet extends HttpServlet {
         String username = request.getParameter("username");
         String email = request.getParameter("email");
         String password = request.getParameter("password");
-        String role = request.getParameter("role");
 
         UserDAO userDAO = new UserDAO();
 
@@ -30,8 +29,8 @@ public class RegisterServlet extends HttpServlet {
                 return;
             }
 
-            //register new user
-            User newUser = new User(username, email, password, role);
+            //self-registration always creates a customer account; admins are not self-service
+            User newUser = new User(username, email, password, "user");
             userDAO.registerUser(newUser);
             
             //redirect to login page

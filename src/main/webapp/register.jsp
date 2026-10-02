@@ -22,12 +22,6 @@
         <label>Password:</label>
         <input type="password" name="password" required><br>
         
-        <label>Role:</label>
-        <select name="role" required>
-            <option value="user">User</option>
-            <option value="admin">Admin</option>
-        </select><br>
-        
         <input type="submit" value="Register">
     </form>
     
