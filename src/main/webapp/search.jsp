@@ -1,5 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ page pageEncoding="UTF-8" %>
+<%@ page import="com.booknook.util.Html" %>
 <%@ page import="java.util.List, java.util.Map, com.booknook.entity.Book, com.booknook.entity.Accessory" %>
 <!DOCTYPE html>
 <html>
@@ -42,7 +43,7 @@
             if (categoryMap != null) {
                 for (Map.Entry<Integer, String> entry : categoryMap.entrySet()) {
         %>
-            <option value="<%= entry.getValue() %>"><%= entry.getValue() %></option>
+            <option value="<%= Html.escape(entry.getValue()) %>"><%= Html.escape(entry.getValue()) %></option>
         <%
                 }
             }
@@ -60,17 +61,17 @@
     %>
         <ul>
             <% for (Book book : books) { %>
-                <li class="book-item" data-category="<%= categoryMap.get(book.getCategoryId()) %>">
-                    <b><%= book.getTitle() %></b> by <%= book.getAuthor() %>
-                    - Category: <%= categoryMap.get(book.getCategoryId()) %>
-                    - Price: $<%= book.getPrice() %>
-                    - Stock: <%= book.getStock() %>
+                <li class="book-item" data-category="<%= Html.escape(categoryMap.get(book.getCategoryId())) %>">
+                    <b><%= Html.escape(book.getTitle()) %></b> by <%= Html.escape(book.getAuthor()) %>
+                    - Category: <%= Html.escape(categoryMap.get(book.getCategoryId())) %>
+                    - Price: $<%= Html.escape(book.getPrice()) %>
+                    - Stock: <%= Html.escape(book.getStock()) %>
 
                     <% if (showCartOptions) { %> 
                         <!--here we show "Add to Cart" only for regular users -->
                         <form action="AddToCartServlet" method="POST">
                             <input type="hidden" name="productType" value="book">
-                            <input type="hidden" name="productId" value="<%= book.getId() %>">
+                            <input type="hidden" name="productId" value="<%= Html.escape(book.getId()) %>">
                             <button type="submit">Add to Cart</button>
                         </form>
                     <% } %>
@@ -91,14 +92,14 @@
         <ul>
             <% for (Accessory accessory : accessories) { %>
                 <li>
-                    <b><%= accessory.getName() %></b>
-                    - Price: $<%= accessory.getPrice() %>
-                    - Stock: <%= accessory.getStock() %>
+                    <b><%= Html.escape(accessory.getName()) %></b>
+                    - Price: $<%= Html.escape(accessory.getPrice()) %>
+                    - Stock: <%= Html.escape(accessory.getStock()) %>
 
                     <% if (showCartOptions) { %> 
                         <form action="AddToCartServlet" method="POST">
                             <input type="hidden" name="productType" value="accessory">
-                            <input type="hidden" name="productId" value="<%= accessory.getId() %>">
+                            <input type="hidden" name="productId" value="<%= Html.escape(accessory.getId()) %>">
                             <button type="submit">Add to Cart</button>
                         </form>
                     <% } %>
@@ -130,7 +131,7 @@
         }
     %>
 
-    <a href="<%= redirectPage %>" class="nav-button">Return to Dashboard</a>
+    <a href="<%= Html.escape(redirectPage) %>" class="nav-button">Return to Dashboard</a>
 
 </body>
 </html>

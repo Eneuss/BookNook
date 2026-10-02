@@ -1,5 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ page pageEncoding="UTF-8" %>
+<%@ page import="com.booknook.util.Html" %>
 <%@ page import="com.booknook.entity.User" %>
 <%@ page import="com.booknook.dao.UserDAO" %>
 <%@ page import="java.sql.SQLException" %>
@@ -35,13 +36,13 @@
     %>
 
     <form action="EditUserServlet" method="POST">
-        <input type="hidden" name="id" value="<%= user.getId() %>">
+        <input type="hidden" name="id" value="<%= Html.escape(user.getId()) %>">
 
         <label>Username:</label>
-        <input type="text" name="username" value="<%= user.getUsername() %>" required><br><br>
+        <input type="text" name="username" value="<%= Html.escape(user.getUsername()) %>" required><br><br>
 
         <label>Email:</label>
-        <input type="email" name="email" value="<%= user.getEmail() %>" required><br><br>
+        <input type="email" name="email" value="<%= Html.escape(user.getEmail()) %>" required><br><br>
 
         <label>New password:</label>
         <input type="password" name="password" autocomplete="new-password"><br>

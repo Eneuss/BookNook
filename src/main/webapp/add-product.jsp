@@ -1,5 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ page pageEncoding="UTF-8" %>
+<%@ page import="com.booknook.util.Html" %>
 <%@ page import="java.util.List, com.booknook.entity.Category, com.booknook.dao.CategoryDAO" %>
 <%@ page import="java.sql.SQLException" %>
 <!DOCTYPE html>
@@ -44,7 +45,7 @@
                     List<Category> categories = categoryDAO.getAllCategoriesWithId();
                     for (Category category : categories) {
                 %>
-                <option value="<%= category.getId() %>"><%= category.getName() %></option>
+                <option value="<%= Html.escape(category.getId()) %>"><%= Html.escape(category.getName()) %></option>
                 <%
                     }
                 %>

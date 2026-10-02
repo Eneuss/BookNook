@@ -1,5 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ page pageEncoding="UTF-8" %>
+<%@ page import="com.booknook.util.Html" %>
 <%@ page import="java.util.List, com.booknook.entity.Category" %>
 <!DOCTYPE html>
 <html>
@@ -33,10 +34,10 @@
                 for (Category category : categories) {
         %>
             <tr>
-                <td><%= category.getName() %></td>
+                <td><%= Html.escape(category.getName()) %></td>
                 <td>
-                    <a href="edit-category.jsp?id=<%= category.getId() %>" class="edit-button">Edit</a>
-                    <form action="DeleteCategoryServlet" method="POST" class="inline-form"><input type="hidden" name="id" value="<%= category.getId() %>"><button type="submit" class="delete-button">Delete</button></form>
+                    <a href="edit-category.jsp?id=<%= Html.escape(category.getId()) %>" class="edit-button">Edit</a>
+                    <form action="DeleteCategoryServlet" method="POST" class="inline-form"><input type="hidden" name="id" value="<%= Html.escape(category.getId()) %>"><button type="submit" class="delete-button">Delete</button></form>
                 </td>
             </tr>
         <%

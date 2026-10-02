@@ -1,5 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ page pageEncoding="UTF-8" %>
+<%@ page import="com.booknook.util.Html" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -26,7 +27,7 @@
 </head>
 <body>
 
-    <h1>Welcome, <%= session.getAttribute("username") %>!</h1>
+    <h1>Welcome, <%= Html.escape(session.getAttribute("username")) %>!</h1>
     <h2>User Dashboard</h2>
 
     <a href="SearchServlet" class="nav-button">Browse Books & Accessories</a>

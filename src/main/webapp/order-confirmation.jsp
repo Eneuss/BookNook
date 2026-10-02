@@ -1,5 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ page pageEncoding="UTF-8" %>
+<%@ page import="com.booknook.util.Html" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -21,7 +22,7 @@
 
     <h2>Order Confirmation</h2>
 
-    <p>Thank you for your purchase, <b><%= session.getAttribute("username") %></b>!</p>
+    <p>Thank you for your purchase, <b><%= Html.escape(session.getAttribute("username")) %></b>!</p>
     <p>Your order has been successfully placed.</p>
 
     <a href="user-dashboard.jsp" class="nav-button">Return to Dashboard</a>

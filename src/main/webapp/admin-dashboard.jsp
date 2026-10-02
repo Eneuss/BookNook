@@ -1,5 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ page pageEncoding="UTF-8" %>
+<%@ page import="com.booknook.util.Html" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -25,7 +26,7 @@
     </style>
 </head>
 <body>
-    <h1>Welcome, Admin <%= session.getAttribute("username") %>!</h1>
+    <h1>Welcome, Admin <%= Html.escape(session.getAttribute("username")) %>!</h1>
     <h2>Admin Dashboard</h2>
 
     <a href="ManageProductsServlet" class="nav-button">Manage Books & Accessories</a>

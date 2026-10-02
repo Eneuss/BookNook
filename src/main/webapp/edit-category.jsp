@@ -1,5 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ page pageEncoding="UTF-8" %>
+<%@ page import="com.booknook.util.Html" %>
 <%@ page import="com.booknook.entity.Category, com.booknook.dao.CategoryDAO" %>
 <%@ page import="java.sql.SQLException" %>
 <!DOCTYPE html>
@@ -34,10 +35,10 @@
     %>
 
     <form action="EditCategoryServlet" method="POST">
-        <input type="hidden" name="id" value="<%= category.getId() %>">
+        <input type="hidden" name="id" value="<%= Html.escape(category.getId()) %>">
 
         <label>Category Name:</label>
-        <input type="text" name="categoryName" value="<%= category.getName() %>" required><br><br>
+        <input type="text" name="categoryName" value="<%= Html.escape(category.getName()) %>" required><br><br>
 
         <button type="submit">Save Changes</button>
     </form>

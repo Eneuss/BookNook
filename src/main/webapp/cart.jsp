@@ -1,5 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ page pageEncoding="UTF-8" %>
+<%@ page import="com.booknook.util.Html" %>
 <%@ page import="java.util.List, com.booknook.entity.Cart, com.booknook.dao.CartDAO, com.booknook.dao.BookDAO, com.booknook.dao.AccessoryDAO, com.booknook.entity.Book, com.booknook.entity.Accessory" %>
 <%@ page import="java.sql.SQLException" %>
 <!DOCTYPE html>
@@ -64,11 +65,11 @@
                     }
             %>
                 <tr>
-                    <td><%= productName %></td>
-                    <td>$<%= productPrice %></td>
-                    <td><%= item.getQuantity() %></td>
+                    <td><%= Html.escape(productName) %></td>
+                    <td>$<%= Html.escape(productPrice) %></td>
+                    <td><%= Html.escape(item.getQuantity()) %></td>
                     <td>
-                        <form action="RemoveFromCartServlet" method="POST" class="inline-form"><input type="hidden" name="id" value="<%= item.getId() %>"><button type="submit" class="action-button remove-button">Remove</button></form>
+                        <form action="RemoveFromCartServlet" method="POST" class="inline-form"><input type="hidden" name="id" value="<%= Html.escape(item.getId()) %>"><button type="submit" class="action-button remove-button">Remove</button></form>
                     </td>
                 </tr>
             <% } %>

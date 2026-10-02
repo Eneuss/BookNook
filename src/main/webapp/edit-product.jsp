@@ -1,5 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ page pageEncoding="UTF-8" %>
+<%@ page import="com.booknook.util.Html" %>
 <%@ page import="com.booknook.entity.Book, com.booknook.entity.Accessory, com.booknook.entity.Category, com.booknook.dao.BookDAO, com.booknook.dao.AccessoryDAO, com.booknook.dao.CategoryDAO" %>
 <%@ page import="java.sql.SQLException, java.util.List" %>
 <!DOCTYPE html>
@@ -45,26 +46,26 @@
     %>
 
     <form action="EditProductServlet" method="POST">
-        <input type="hidden" name="id" value="<%= book != null ? book.getId() : accessory.getId() %>">
-        <input type="hidden" name="productType" value="<%= productType %>">
+        <input type="hidden" name="id" value="<%= Html.escape(book != null ? book.getId() : accessory.getId()) %>">
+        <input type="hidden" name="productType" value="<%= Html.escape(productType) %>">
 
         <label>Product Name:</label>
-        <input type="text" name="productName" value="<%= book != null ? book.getTitle() : accessory.getName() %>" required><br><br>
+        <input type="text" name="productName" value="<%= Html.escape(book != null ? book.getTitle() : accessory.getName()) %>" required><br><br>
 
         <label>Price:</label>
-        <input type="number" step="0.01" name="price" value="<%= book != null ? book.getPrice() : accessory.getPrice() %>" required><br><br>
+        <input type="number" step="0.01" name="price" value="<%= Html.escape(book != null ? book.getPrice() : accessory.getPrice()) %>" required><br><br>
 
         <label>Stock:</label>
-        <input type="number" name="stock" value="<%= book != null ? book.getStock() : accessory.getStock() %>" required><br><br>
+        <input type="number" name="stock" value="<%= Html.escape(book != null ? book.getStock() : accessory.getStock()) %>" required><br><br>
 
         <% if (book != null) { %>
             <label>Author:</label>
-            <input type="text" name="author" value="<%= book.getAuthor() %>"><br><br>
+            <input type="text" name="author" value="<%= Html.escape(book.getAuthor()) %>"><br><br>
 
             <label>Category:</label>
             <select name="categoryId">
                 <% for (Category category : categories) { %>
-                <option value="<%= category.getId() %>" <%= book.getCategoryId() == category.getId() ? "selected" : "" %>><%= category.getName() %></option>
+                <option value="<%= Html.escape(category.getId()) %>" <%= Html.escape(book.getCategoryId() == category.getId() ? "selected" : "") %>><%= Html.escape(category.getName()) %></option>
                 <% } %>
             </select><br><br>
         <% } %>

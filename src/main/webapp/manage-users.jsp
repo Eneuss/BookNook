@@ -1,5 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ page pageEncoding="UTF-8" %>
+<%@ page import="com.booknook.util.Html" %>
 <%@ page import="java.util.List, com.booknook.entity.User" %>
 <!DOCTYPE html>
 <html>
@@ -33,11 +34,11 @@
                 for (User user : users) {
         %>
             <tr>
-                <td><%= user.getUsername() %></td>
-                <td><%= user.getEmail() %></td>
+                <td><%= Html.escape(user.getUsername()) %></td>
+                <td><%= Html.escape(user.getEmail()) %></td>
                 <td>
-                    <a href="edit-user.jsp?id=<%= user.getId() %>" class="edit-button">Edit</a>
-                    <form action="DeleteUserServlet" method="POST" class="inline-form"><input type="hidden" name="id" value="<%= user.getId() %>"><button type="submit" class="delete-button">Delete</button></form>
+                    <a href="edit-user.jsp?id=<%= Html.escape(user.getId()) %>" class="edit-button">Edit</a>
+                    <form action="DeleteUserServlet" method="POST" class="inline-form"><input type="hidden" name="id" value="<%= Html.escape(user.getId()) %>"><button type="submit" class="delete-button">Delete</button></form>
                 </td>
             </tr>
         <%

@@ -1,5 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ page pageEncoding="UTF-8" %>
+<%@ page import="com.booknook.util.Html" %>
 <%@ page import="java.util.List, com.booknook.entity.Order, com.booknook.entity.OrderItem, java.text.DecimalFormat" %>
 <!DOCTYPE html>
 <html>
@@ -36,16 +37,16 @@
             </tr>
             <% for (Order order : orders) { %>
                 <tr>
-                    <td><%= order.getId() %></td>
-                    <td><%= order.getOrderDate() %></td>
+                    <td><%= Html.escape(order.getId()) %></td>
+                    <td><%= Html.escape(order.getOrderDate()) %></td>
                     <td>
                         <ul>
                             <% for (OrderItem item : order.getItems()) { %>
-                                <li><%= item.getName() %> (x<%= item.getQuantity() %>) - $<%= df.format(item.getPriceAtPurchase()) %></li>
+                                <li><%= Html.escape(item.getName()) %> (x<%= Html.escape(item.getQuantity()) %>) - $<%= Html.escape(df.format(item.getPriceAtPurchase())) %></li>
                             <% } %>
                         </ul>
                     </td>
-                    <td>$<%= df.format(order.getTotalPrice()) %></td>
+                    <td>$<%= Html.escape(df.format(order.getTotalPrice())) %></td>
                 </tr>
             <% } %>
         </table>

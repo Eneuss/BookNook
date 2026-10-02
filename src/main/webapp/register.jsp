@@ -1,5 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ page pageEncoding="UTF-8" %>
+<%@ page import="com.booknook.util.Html" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,7 +10,7 @@
     <h2>Register</h2>
     
     <% if (request.getAttribute("errorMessage") != null) { %>
-        <p style="color:red;"><%= request.getAttribute("errorMessage") %></p>
+        <p style="color:red;"><%= Html.escape(request.getAttribute("errorMessage")) %></p>
     <% } %>
     
     <form action="RegisterServlet" method="post">

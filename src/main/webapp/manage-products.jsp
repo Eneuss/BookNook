@@ -1,5 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ page pageEncoding="UTF-8" %>
+<%@ page import="com.booknook.util.Html" %>
 <%@ page import="java.util.List, com.booknook.entity.Book, com.booknook.entity.Accessory" %>
 <!DOCTYPE html>
 <html>
@@ -46,13 +47,13 @@
                 for (Book book : books) {
         %>
             <tr>
-                <td><%= book.getTitle() %></td>
-                <td><%= book.getAuthor() %></td>
-                <td>$<%= book.getPrice() %></td>
-                <td><%= book.getStock() %></td>
+                <td><%= Html.escape(book.getTitle()) %></td>
+                <td><%= Html.escape(book.getAuthor()) %></td>
+                <td>$<%= Html.escape(book.getPrice()) %></td>
+                <td><%= Html.escape(book.getStock()) %></td>
                 <td>
-                    <a href="edit-product.jsp?id=<%= book.getId() %>&type=book" class="edit-button">Edit</a>
-                    <form action="DeleteProductServlet" method="POST" class="inline-form"><input type="hidden" name="type" value="book"><input type="hidden" name="id" value="<%= book.getId() %>"><button type="submit" class="delete-button">Delete</button></form>
+                    <a href="edit-product.jsp?id=<%= Html.escape(book.getId()) %>&type=book" class="edit-button">Edit</a>
+                    <form action="DeleteProductServlet" method="POST" class="inline-form"><input type="hidden" name="type" value="book"><input type="hidden" name="id" value="<%= Html.escape(book.getId()) %>"><button type="submit" class="delete-button">Delete</button></form>
                 </td>
             </tr>
         <%
@@ -76,12 +77,12 @@
                 for (Accessory accessory : accessories) {
         %>
             <tr>
-                <td><%= accessory.getName() %></td>
-                <td>$<%= accessory.getPrice() %></td>
-                <td><%= accessory.getStock() %></td>
+                <td><%= Html.escape(accessory.getName()) %></td>
+                <td>$<%= Html.escape(accessory.getPrice()) %></td>
+                <td><%= Html.escape(accessory.getStock()) %></td>
                 <td>
-                    <a href="edit-product.jsp?id=<%= accessory.getId() %>&type=accessory" class="edit-button">Edit</a>
-                    <form action="DeleteProductServlet" method="POST" class="inline-form"><input type="hidden" name="type" value="accessory"><input type="hidden" name="id" value="<%= accessory.getId() %>"><button type="submit" class="delete-button">Delete</button></form>
+                    <a href="edit-product.jsp?id=<%= Html.escape(accessory.getId()) %>&type=accessory" class="edit-button">Edit</a>
+                    <form action="DeleteProductServlet" method="POST" class="inline-form"><input type="hidden" name="type" value="accessory"><input type="hidden" name="id" value="<%= Html.escape(accessory.getId()) %>"><button type="submit" class="delete-button">Delete</button></form>
                 </td>
             </tr>
         <%
