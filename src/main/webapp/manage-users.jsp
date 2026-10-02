@@ -23,7 +23,7 @@
 
     <table>
         <tr>
-            <th>Username</th><th>Email</th><th>Password</th><th>Actions</th>
+            <th>Username</th><th>Email</th><th>Actions</th>
         </tr>
         <%
             List<User> users = (List<User>) request.getAttribute("users");
@@ -33,7 +33,6 @@
             <tr>
                 <td><%= user.getUsername() %></td>
                 <td><%= user.getEmail() %></td>
-                <td><%= user.getPassword() %></td> 
                 <td>
                     <a href="edit-user.jsp?id=<%= user.getId() %>" class="edit-button">Edit</a>
                     <a href="DeleteUserServlet?id=<%= user.getId() %>" class="delete-button">Delete</a>
@@ -43,7 +42,7 @@
                 }
             } else {
         %>
-            <tr><td colspan="4">No regular users available.</td></tr>
+            <tr><td colspan="3">No regular users available.</td></tr>
         <%
             }
         %>

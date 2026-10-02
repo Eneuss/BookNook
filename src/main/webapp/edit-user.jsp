@@ -43,8 +43,9 @@
         <label>Email:</label>
         <input type="email" name="email" value="<%= user.getEmail() %>" required><br><br>
 
-        <label>Password:</label>
-        <input type="text" name="password" value="<%= user.getPassword() %>" required><br><br>
+        <label>New password:</label>
+        <input type="password" name="password" autocomplete="new-password"><br>
+        <small>(Leave blank to keep the current password)</small><br><br>
 
         <button type="submit">Save Changes</button>
     </form>

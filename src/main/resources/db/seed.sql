@@ -1,5 +1,7 @@
 -- Demo data loaded when a new database is created.
--- Demo accounts: admin / admin123 and johnDoe / password123
+-- Demo accounts (passwords are BCrypt hashes):
+--   admin / admin123        (role admin)
+--   johnDoe / password123   (role user)
 
 INSERT INTO Categories (id, name) VALUES
     (1, 'Fiction'),
@@ -17,5 +19,5 @@ INSERT INTO Accessories (id, name, price, stock) VALUES
     (3, 'Book Cover', 5.50, 27);
 
 INSERT INTO Users (id, username, email, password, role) VALUES
-    (1, 'admin', 'admin@example.com', 'admin123', 'admin'),
-    (2, 'johnDoe', 'john@example.com', 'password123', 'user');
+    (1, 'admin', 'admin@example.com', '$2a$10$h4ODiR85FHpyNikNlXKHROjJNjchffFwoR6Tgn2Zafrr1fIaWmqC6', 'admin'),
+    (2, 'johnDoe', 'john@example.com', '$2a$10$TjXT/9yz5/es5DP4doZoremiypqanqO63hrJtLzb7R6QeaD4uWZfi', 'user');
