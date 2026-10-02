@@ -15,6 +15,8 @@
         .nav-button { background-color: #007BFF; color: white; }
         .edit-button { background-color: #ffc107; color: black; }
         .delete-button { background-color: red; color: white; }
+        .inline-form { display: inline; }
+        button.delete-button, button.remove-button { border: none; cursor: pointer; }
     </style>
 </head>
 <body>
@@ -35,7 +37,7 @@
                 <td><%= user.getEmail() %></td>
                 <td>
                     <a href="edit-user.jsp?id=<%= user.getId() %>" class="edit-button">Edit</a>
-                    <a href="DeleteUserServlet?id=<%= user.getId() %>" class="delete-button">Delete</a>
+                    <form action="DeleteUserServlet" method="POST" class="inline-form"><input type="hidden" name="id" value="<%= user.getId() %>"><button type="submit" class="delete-button">Delete</button></form>
                 </td>
             </tr>
         <%

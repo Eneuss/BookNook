@@ -15,6 +15,8 @@
         .nav-button { background-color: #007BFF; color: white; }
         .edit-button { background-color: #ffc107; color: black; }
         .delete-button { background-color: red; color: white; }
+        .inline-form { display: inline; }
+        button.delete-button, button.remove-button { border: none; cursor: pointer; }
     </style>
 </head>
 <body>
@@ -34,7 +36,7 @@
                 <td><%= category.getName() %></td>
                 <td>
                     <a href="edit-category.jsp?id=<%= category.getId() %>" class="edit-button">Edit</a>
-                    <a href="DeleteCategoryServlet?id=<%= category.getId() %>" class="delete-button">Delete</a>
+                    <form action="DeleteCategoryServlet" method="POST" class="inline-form"><input type="hidden" name="id" value="<%= category.getId() %>"><button type="submit" class="delete-button">Delete</button></form>
                 </td>
             </tr>
         <%

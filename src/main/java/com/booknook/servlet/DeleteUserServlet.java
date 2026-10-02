@@ -17,7 +17,7 @@ public class DeleteUserServlet extends HttpServlet {
     private static final Logger LOG = Logger.getLogger(DeleteUserServlet.class.getName());
     private final UserDAO userDAO = new UserDAO();
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int userId = Integer.parseInt(request.getParameter("id"));
 
         try {

@@ -24,6 +24,7 @@ public class LoginServlet extends HttpServlet {
             User user = userDAO.authenticateUser(username, password);
             if (user != null) {
                 HttpSession session = request.getSession(true);
+                request.changeSessionId(); //prevent session fixation
 
                 session.setAttribute("userId", user.getId());
                 session.setAttribute("username", user.getUsername());

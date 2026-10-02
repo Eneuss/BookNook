@@ -18,6 +18,8 @@
         }
         .checkout-button { background-color: #007BFF; color: white; }
         .remove-button { background-color: red; color: white; }
+        .inline-form { display: inline; }
+        button.delete-button, button.remove-button { border: none; cursor: pointer; }
     </style>
 </head>
 <body>
@@ -66,7 +68,7 @@
                     <td>$<%= productPrice %></td>
                     <td><%= item.getQuantity() %></td>
                     <td>
-                        <a href="RemoveFromCartServlet?id=<%= item.getId() %>" class="action-button remove-button">Remove</a>
+                        <form action="RemoveFromCartServlet" method="POST" class="inline-form"><input type="hidden" name="id" value="<%= item.getId() %>"><button type="submit" class="action-button remove-button">Remove</button></form>
                     </td>
                 </tr>
             <% } %>

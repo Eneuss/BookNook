@@ -41,7 +41,17 @@ public class CheckoutFlowTest extends DatabaseTest {
         cartDAO.addOrUpdateCartItem(USER_ID, 2, "accessory");
         int firstId = cartDAO.getCartItems(USER_ID).get(0).getId();
 
-        cartDAO.removeFromCart(firstId);
+        cartDAO.removeFromCart(firstId, USER_ID);
+
+        assertEquals(1, cartDAO.getCartItems(USER_ID).size());
+    }
+
+    @Test
+    public void cannotRemoveAnotherUsersCartItem() throws SQLException {
+        cartDAO.addOrUpdateCartItem(USER_ID, 1, "book");
+        int itemId = cartDAO.getCartItems(USER_ID).get(0).getId();
+
+        cartDAO.removeFromCart(itemId, 1);
 
         assertEquals(1, cartDAO.getCartItems(USER_ID).size());
     }

@@ -22,6 +22,8 @@
         .add-product-button { background-color: #28a745; color: white; }
         .edit-button { background-color: #ffc107; color: black; }
         .delete-button { background-color: red; color: white; }
+        .inline-form { display: inline; }
+        button.delete-button, button.remove-button { border: none; cursor: pointer; }
     </style>
 </head>
 <body>
@@ -50,7 +52,7 @@
                 <td><%= book.getStock() %></td>
                 <td>
                     <a href="edit-product.jsp?id=<%= book.getId() %>&type=book" class="edit-button">Edit</a>
-                    <a href="DeleteProductServlet?type=book&id=<%= book.getId() %>" class="delete-button">Delete</a>
+                    <form action="DeleteProductServlet" method="POST" class="inline-form"><input type="hidden" name="type" value="book"><input type="hidden" name="id" value="<%= book.getId() %>"><button type="submit" class="delete-button">Delete</button></form>
                 </td>
             </tr>
         <%
@@ -79,7 +81,7 @@
                 <td><%= accessory.getStock() %></td>
                 <td>
                     <a href="edit-product.jsp?id=<%= accessory.getId() %>&type=accessory" class="edit-button">Edit</a>
-                    <a href="DeleteProductServlet?type=accessory&id=<%= accessory.getId() %>" class="delete-button">Delete</a>
+                    <form action="DeleteProductServlet" method="POST" class="inline-form"><input type="hidden" name="type" value="accessory"><input type="hidden" name="id" value="<%= accessory.getId() %>"><button type="submit" class="delete-button">Delete</button></form>
                 </td>
             </tr>
         <%

@@ -18,7 +18,7 @@ public class RemoveFromCartServlet extends HttpServlet {
     private static final Logger LOG = Logger.getLogger(RemoveFromCartServlet.class.getName());
     private final CartDAO cartDAO = new CartDAO();
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
         Integer userId = (Integer) session.getAttribute("userId");
 
@@ -29,7 +29,7 @@ public class RemoveFromCartServlet extends HttpServlet {
 
         try {
             int cartItemId = Integer.parseInt(request.getParameter("id"));
-            cartDAO.removeFromCart(cartItemId);
+            cartDAO.removeFromCart(cartItemId, userId);
 
             response.sendRedirect("cart.jsp");
 

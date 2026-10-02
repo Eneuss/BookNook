@@ -34,11 +34,12 @@ public class CartDAO {
     }
 
     //remove an item from the cart
-    public void removeFromCart(int cartId) throws SQLException {
-        String sql = "DELETE FROM Cart WHERE id = ?";
+    public void removeFromCart(int cartId, int userId) throws SQLException {
+        String sql = "DELETE FROM Cart WHERE id = ? AND user_id = ?"; //users can only remove their own items
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, cartId);
+            stmt.setInt(2, userId);
             stmt.executeUpdate();
         }
     }

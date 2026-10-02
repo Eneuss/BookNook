@@ -17,7 +17,7 @@ public class DeleteCategoryServlet extends HttpServlet {
     private static final Logger LOG = Logger.getLogger(DeleteCategoryServlet.class.getName());
     private final CategoryDAO categoryDAO = new CategoryDAO();
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             int categoryId = Integer.parseInt(request.getParameter("id"));
             categoryDAO.deleteCategory(categoryId); //delete category from DB
