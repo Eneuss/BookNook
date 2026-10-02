@@ -17,7 +17,7 @@ import org.junit.jupiter.api.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class TestAccessoryDAO {
+public class TestAccessoryDAO extends DatabaseTest {
 
     private final AccessoryDAO accessoryDAO = new AccessoryDAO();
 

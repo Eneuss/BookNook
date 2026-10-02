@@ -14,14 +14,9 @@ import org.junit.jupiter.api.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class TestOrderDAO {
+public class TestOrderDAO extends DatabaseTest {
 
     private static final OrderDAO orderDAO = new OrderDAO();
-
-    @BeforeEach
-    public void setUp() throws SQLException {
-        orderDAO.deleteOrder(1); // Remove test orders before each test
-    }
 
     @Test
     public void testCreateOrder() throws SQLException {

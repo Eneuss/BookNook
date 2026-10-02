@@ -16,7 +16,7 @@ import org.junit.jupiter.api.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class TestUserDAO {
+public class TestUserDAO extends DatabaseTest {
 
     private static final UserDAO userDAO = new UserDAO();
 
